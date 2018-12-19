@@ -1,9 +1,9 @@
-import React, { component } from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import App from 'App';
-import Test from 'pages';
+import App from '../App';
+import Test from '../pages/Test';
 
-class Router extends component {
+class Router extends Component {
     render() {
         return (
             <BrowserRouter>
