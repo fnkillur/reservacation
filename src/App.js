@@ -4,7 +4,7 @@ class App extends Component {
     render() {
         return (
             <div>
-                Start
+                Main 화면
             </div>
         );
     }
