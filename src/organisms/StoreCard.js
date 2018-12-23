@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Image from '../components/Image';
 import Textbox from '../components/Textbox';
-import './StoreCard.sass'
+import './StoreCard.scss'
 
 class StoreCard extends Component {
     render() {
