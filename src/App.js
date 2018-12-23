@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import StoreCard from './organisms/StoreCard';
 
 class App extends Component {
     render() {
         return (
             <div>
-                Main 화면
+                <StoreCard />
             </div>
         );
     }
