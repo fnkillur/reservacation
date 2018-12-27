@@ -1,0 +1,13 @@
+.main {
+    display:flex;
+}
+
+.with-stores {
+    width:50%;
+}
+
+.store-list {
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
