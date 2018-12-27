@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Image from '../components/Image';
-import Textbox from '../components/Textbox';
-import './StoreCard.scss'
+import DescriptionBox from '../components/DescriptionBox';
+import TitleBox from '../components/TitleBox';
+import './StoreCard.scss';
 
 class StoreCard extends Component {
     render() {
@@ -14,13 +15,13 @@ class StoreCard extends Component {
                 </section>
                 <section className='store-contents'>
                     <section className='store-title'>
-                        <Textbox contents='CAFFE IN BUS' />
+                        <TitleBox contents='CAFFE IN BUS' />
                     </section>
                     <section className='store-description'>
-                        <Textbox contents='라페스타에 있는 카페 입니다.' />
-                        <Textbox contents='메뉴판' />
-                        <Textbox contents='라페스타에 있는 카페 입니다. 커피 4000원 커피 4000원커피 4000원커피 4000원커피 4000원' />
-                        <Textbox contents='라페스타에 있는 카페 입니다. 커피 4000원 커피 4000원커피 4000원커피 4000원커피 4000원' />
+                        <DescriptionBox contents='주소' />
+                        <DescriptionBox contents='전화번호' />
+                        <DescriptionBox contents='설명1' />
+                        <DescriptionBox contents='설명2' />
                     </section>
                 </section>
             </article>
