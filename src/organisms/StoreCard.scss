@@ -2,6 +2,7 @@ article {
     margin: 0;
     padding: 15px 8px;
     display: flex;
+    align-items: center;
     border-bottom: 1px solid #e6e6e6;
 }
 
@@ -11,6 +12,7 @@ article {
 }
 
 .store-contents {
+    width: 70%;
     font-size: 13px;
     .store-title {
         padding: 10px;
