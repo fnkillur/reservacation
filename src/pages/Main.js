@@ -11,17 +11,17 @@ class Main extends Component {
     }
 
     componentDidMount() {
-        this._getStores();
+        this.getStores();
     }
 
-    _getStores = async () => {
-        let stores = await this._callApi();
+    getStores = async () => {
+        let stores = await this.callApi();
         this.setState({
             stores
         });
-    }
+    };
 
-    _callApi = () => {
+    callApi = () => {
         // Api 호출 Test Code
         return [{
             img_src: 'https://www.jeongdong.or.kr/static/portal/img/HKPU_04_04_pic1.jpg',
@@ -40,9 +40,9 @@ class Main extends Component {
             description: '24시 카페',
             no: 2,
         }]
-    }
+    };
 
-    _renderCards = () => {
+    renderCards = () => {
         return this.state.stores.map(store => {
             return <StoreCard
                 img_src={store.img_src}
@@ -52,16 +52,16 @@ class Main extends Component {
                 store_tel={store.tel}
                 store_description={store.description}
                 key={store.no}
-                onClick={this._toggleModal}
+                onClick={this.toggleModal}
             />
         });
-    }
+    };
 
-    _toggleModal = () => {
+    toggleModal = () => {
         this.setState({
             isOpen: !this.state.isOpen
         });
-    }
+    };
 
     render() {
         let stores = this.state.stores;
@@ -70,12 +70,12 @@ class Main extends Component {
                 <section>
                     <Modal
                         show={this.state.isOpen}
-                        onClose={this._toggleModal}>
+                        onClose={this.toggleModal}>
                         <div>팝업창</div>
                     </Modal>
                 </section>
                 <section className={stores ? 'with-stores' : 'no-stores'}>
-                    {stores ? this._renderCards() : ''}
+                    {stores ? this.renderCards() : ''}
                 </section>
                 <section className='map'>
                     <Map />

@@ -14,6 +14,6 @@ const DescriptionBox = (props) => {
     return (
         <p style={styles}>{props.contents}</p>
     );
-}
+};
 
 export default DescriptionBox;

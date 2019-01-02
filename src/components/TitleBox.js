@@ -6,8 +6,8 @@ const TitleBox = (props) => {
         padding: '0',
         width: '100%',
         height: '100%',
-        'font-weight': 'bold',
-    }
+        fontWeight: 'bold',
+    };
 
     return (
         <span style={styles}>{props.contents}</span>
