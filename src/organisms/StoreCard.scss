@@ -2,23 +2,22 @@ article {
     margin: 0;
     padding: 15px 8px;
     display: flex;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid #e6e6e6;
 }
 
 .store-img {
-    max-width: 150px;
-    max-height: 150px;
-    flex-grow: 1;
+    width: 80px;
+    height: 92px;
 }
 
 .store-contents {
-    flex-grow: 4;
+    font-size: 13px;
+    .store-title {
+        padding: 10px;
+    }
+    
+    .store-description {
+        padding: 10px;
+    }
 }
 
-.store-title {
-    padding: 10px;
-}
-
-.store-description {
-    padding: 10px;
-}
