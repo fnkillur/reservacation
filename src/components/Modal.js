@@ -4,17 +4,19 @@ import './Modal.scss';
 
 class Modal extends Component {
     render() {
-        if (!this.props.show) {
+        const { show, onClose, children } = this.props;
+
+        if (!show) {
             return null;
         }
 
         return (
             <div className='backdrop'>
                 <div className='modal'>
-                    <header>
-                        <button onClick={this.props.onClose}>X</button>
+                    <header className='header'>
+                        <button onClick={() => onClose()}>X</button>
                     </header>
-                    {this.props.children}
+                    {children}
                 </div>
             </div>
         );
@@ -25,6 +27,7 @@ Modal.propTypes = {
     onClose: PropTypes.func.isRequired,
     show: PropTypes.bool,
     children: PropTypes.node,
+    no: PropTypes.number,
 };
 
 export default Modal;
