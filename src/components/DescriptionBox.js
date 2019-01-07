@@ -5,7 +5,7 @@ const DescriptionBox = (props) => {
     let styles = {
         margin: '0',
         padding: '0',
-        width: '345px',
+        width: '100%',
         height: '100%',
         textOverflow: 'ellipsis',
         overflow: 'hidden',
