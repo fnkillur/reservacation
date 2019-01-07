@@ -6,7 +6,7 @@ import './StoreCard.scss';
 
 const StoreCard = (props) => {
     return (
-        <article>
+        <article onClick={props.onClick}>
             <section className='store-img'>
                 <Image
                     src={props.img_src}

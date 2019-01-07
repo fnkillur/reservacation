@@ -3,10 +3,13 @@
 }
 
 .with-stores {
-    width:50%;
+    width: 408px;
 }
 
-.store-list {
-    margin-top: 15px;
-    border-top: 1px solid;
+.no-stores {
+    border-top: 1px solid #e6e6e6;
+}
+
+.map {
+    flex: 1;
 }
