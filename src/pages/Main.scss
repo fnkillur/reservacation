@@ -1,15 +1,20 @@
 .main {
-    display:flex;
-}
+    display: flex;
 
-.with-stores {
-    width: 408px;
-}
+    .with-stores {
+        width: 408px;
+    }
+    
+    .no-stores {
+        border-top: 1px solid #e6e6e6;
+    }
+    
+    .map {
+        flex: 1;
+    }
 
-.no-stores {
-    border-top: 1px solid #e6e6e6;
-}
-
-.map {
-    flex: 1;
+    .store {
+        border-bottom: 1px solid #e6e6e6;
+        cursor: pointer;
+    }
 }

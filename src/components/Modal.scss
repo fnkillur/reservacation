@@ -17,4 +17,14 @@
     margin-left: -250px;
     padding: 30px;
     margin-top: -280px;
+
+    .header {
+        text-align: right;
+
+        button {
+            border: 0;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    }
 }
