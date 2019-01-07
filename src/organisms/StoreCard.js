@@ -1,29 +1,41 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Image from '../components/Image';
 import DescriptionBox from '../components/DescriptionBox';
 import TitleBox from '../components/TitleBox';
 import './StoreCard.scss';
+import PropTypes from 'prop-types';
 
 const StoreCard = (props) => {
+    const { imgSrc, imgAlt, name, address, tel, description } = props;
+    
     return (
-        <article onClick={props.onClick}>
+        <article className='store-card'>
             <section className='store-img'>
                 <Image
-                    src={props.img_src}
-                    alt={props.img_alt} />
+                    src={imgSrc}
+                    alt={imgAlt} />
             </section>
             <section className='store-contents'>
                 <section className='store-title'>
-                    <TitleBox contents={props.store_name} />
+                    <TitleBox contents={name} />
                 </section>
                 <section className='store-description'>
-                    <DescriptionBox contents={props.store_address} />
-                    <DescriptionBox contents={props.store_tel} />
-                    <DescriptionBox contents={props.store_description} />
+                    <DescriptionBox contents={address} />
+                    <DescriptionBox contents={tel} />
+                    <DescriptionBox contents={description} />
                 </section>
             </section>
         </article>
     );
+};
+
+StoreCard.propTypes = {
+    imgSrc: PropTypes.string,
+    imgAlt: PropTypes.string,
+    name: PropTypes.string,
+    address: PropTypes.string,
+    tel: PropTypes.string,
+    description: PropTypes.string,
 };
 
 export default StoreCard;
