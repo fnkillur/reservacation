@@ -4,8 +4,8 @@ import StoreCard from '../organisms/StoreCard';
 import './Main.scss';
 
 class Main extends Component {
-    constructor(props) {
-        super(props);
+    constructor(prop){
+        super(prop);
         this.state = {};
     }
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Image from '../components/Image';
 import DescriptionBox from '../components/DescriptionBox';
 import TitleBox from '../components/TitleBox';
@@ -24,6 +24,6 @@ const StoreCard = (props) => {
             </section>
         </article>
     );
-}
+};
 
 export default StoreCard;
