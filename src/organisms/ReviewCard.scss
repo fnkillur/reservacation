@@ -1,0 +1,23 @@
+.review-card {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    line-height: 1.5;
+
+    .img {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .title {
+        font-size: 13px;
+        text-overflow: ellipsis;
+    }
+
+    .description {
+        font-size: 12px;
+        text-overflow: ellipsis;
+    }
+}
+
