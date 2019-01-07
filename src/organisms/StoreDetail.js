@@ -5,6 +5,7 @@ import TitleBox from '../components/TitleBox';
 import ReviewCard from './ReviewCard';
 import PropTypes from 'prop-types';
 import './StoreDetail.scss';
+import SectionDivider from '../components/SectionDivider';
 
 class StoreDetail extends Component {
     constructor(prop) {
@@ -96,6 +97,7 @@ class StoreDetail extends Component {
         return (
             <article className='store-detail'>
                 <button className='btn-reserve'>예약하기</button>
+                <SectionDivider />
                 <section className='store-info'>
                     <StoreCard
                         imgSrc={imgSrc}
@@ -106,10 +108,12 @@ class StoreDetail extends Component {
                         description={description}
                     />
                 </section>
+                <SectionDivider />
                 <TitleBox contents={`${name}의 분위기 넘치는 사진들`} />
                 <section className='img-list'>
                     {this.state.images ? this.renderImgaes() : ''}
                 </section>
+                <SectionDivider />
                 <button className='btn-review'>리뷰</button>
                 <button className='btn-qna'>QnA</button>
                 <section className='review-list'>
