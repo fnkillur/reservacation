@@ -54,7 +54,6 @@ class Map extends Component {
 
     componentDidMount() {
         if (navigator.geolocation) {
-            console.log(navigator.geolocation);
             navigator.geolocation.getCurrentPosition(this.showPosition);
         } else {
             alert('허용하지 않으면 이 서비스 사용에 제한됩니다.');
