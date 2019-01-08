@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import App from '../App';
+import App from '../pages/App';
 
 class Router extends Component {
     render() {
@@ -8,6 +8,7 @@ class Router extends Component {
             <BrowserRouter>
                 <div>
                     <Route exact path="/" component={App} />
+                    <Route exact path="/stores/:no" component={App} />
                 </div>
             </BrowserRouter>
         );

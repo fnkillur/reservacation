@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
+import './StoreDetail.scss';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import StoreCard from './StoreCard';
 import Image from '../components/Image';
 import TitleBox from '../components/TitleBox';
 import ReviewCard from './ReviewCard';
-import PropTypes from 'prop-types';
-import './StoreDetail.scss';
 import SectionDivider from '../components/SectionDivider';
+import Modal from '../components/Modal';
+
 
 class StoreDetail extends Component {
-    constructor(prop) {
-        super(prop);
-        this.state = { images: [], reviews: [] };
-    }
 
     componentDidMount() {
         this.getImages();
@@ -92,39 +91,45 @@ class StoreDetail extends Component {
     };
 
     render() {
-        const { imgSrc, imgAlt, name, address, tel, description } = this.props;
+        const { no, imgSrc, imgAlt, name, address, tel, description } = this.props;
+        let token = 'test' // Test 용 토큰
+        let isImages = this.state && this.state.images;
+        let isReviews = this.state && this.state.reviews;
 
         return (
-            <article className='store-detail'>
-                <button className='btn-reserve'>예약하기</button>
-                <SectionDivider />
-                <section className='store-info'>
-                    <StoreCard
-                        imgSrc={imgSrc}
-                        imgAlt={imgAlt}
-                        name={name}
-                        address={address}
-                        tel={tel}
-                        description={description}
-                    />
-                </section>
-                <SectionDivider />
-                <TitleBox contents={`${name}의 분위기 넘치는 사진들`} />
-                <section className='img-list'>
-                    {this.state.images ? this.renderImgaes() : ''}
-                </section>
-                <SectionDivider />
-                <button className='btn-review'>리뷰</button>
-                <button className='btn-qna'>QnA</button>
-                <section className='review-list'>
-                    {this.state.reviews ? this.renderReviews() : ''}
-                </section>
-            </article>
+            <Modal to={'/'}>
+                <article className='store-detail'>
+                    <Link to={`/stores/${no}?reserve=true&token=${token}`}><button className='btn-reserve'>예약하기</button></Link>
+                    <SectionDivider />
+                    <section className='store-info'>
+                        <StoreCard
+                            imgSrc={imgSrc}
+                            imgAlt={imgAlt}
+                            name={name}
+                            address={address}
+                            tel={tel}
+                            description={description}
+                        />
+                    </section>
+                    <SectionDivider />
+                    <TitleBox contents={`${name}의 분위기 넘치는 사진들`} />
+                    <section className='img-list'>
+                        {isImages && this.renderImgaes()}
+                    </section>
+                    <SectionDivider />
+                    <button className='btn-review'>리뷰</button>
+                    <button className='btn-qna'>QnA</button>
+                    <section className='review-list'>
+                        {isReviews && this.renderReviews()}
+                    </section>
+                </article>
+            </Modal>
         );
     }
 }
 
 StoreDetail.propTypes = {
+    no: PropTypes.string.isRequired,
     imgSrc: PropTypes.string,
     imgAlt: PropTypes.string,
     name: PropTypes.string,
