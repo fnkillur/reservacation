@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import './Modal.scss';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 class Modal extends Component {
     render() {
-        const { show, onClose, children } = this.props;
-
-        if (!show) {
-            return null;
-        }
+        const { to, children } = this.props;
 
         return (
             <div className='backdrop'>
                 <div className='modal'>
-                    <header className='header'>
-                        <button onClick={() => onClose()}>X</button>
-                    </header>
+                    <Link to={to} style={{ textDecoration: 'none' }}><button className='btn-close'>X</button></Link>
                     {children}
                 </div>
             </div>
@@ -24,10 +19,8 @@ class Modal extends Component {
 }
 
 Modal.propTypes = {
-    onClose: PropTypes.func.isRequired,
-    show: PropTypes.bool,
+    to: PropTypes.string.isRequired,
     children: PropTypes.node,
-    no: PropTypes.number,
 };
 
 export default Modal;
