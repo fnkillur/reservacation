@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Modal.scss';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class Modal extends Component {
     render() {
@@ -10,6 +11,7 @@ class Modal extends Component {
         return (
             <div className='backdrop'>
                 <div className='modal'>
+                
                     <Link to={to} style={{ textDecoration: 'none' }}><button className='btn-close'>X</button></Link>
                     {children}
                 </div>
