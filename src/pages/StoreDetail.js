@@ -2,20 +2,40 @@ import React, { Component } from 'react';
 import './StoreDetail.scss';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import StoreCard from './StoreCard';
 import Image from '../components/Image';
 import TitleBox from '../components/TitleBox';
-import ReviewCard from './ReviewCard';
 import SectionDivider from '../components/SectionDivider';
 import Modal from '../components/Modal';
-
+import StoreCard from '../organisms/StoreCard';
+import ReviewCard from '../organisms/ReviewCard';
 
 class StoreDetail extends Component {
 
     componentDidMount() {
+        this.getStore();
         this.getImages();
         this.getReviews();
     }
+
+    getStore = async () => {
+        let store = await this.callApiStore();
+        this.setState({
+            store
+        });
+    };
+
+    callApiStore = () => {
+        // Api 호출 Test Code
+        return {
+            imgSrc: 'https://www.jeongdong.or.kr/static/portal/img/HKPU_04_04_pic1.jpg',
+            imgAlt: '스타벅스 아주대점',
+            name: '스타벅스 아주대점',
+            address: '경기도 수원시 팔달구 우만2동 월드컵로 205',
+            tel: '031-215-4516',
+            description: '카페',
+            no: 1,
+        };
+    };
 
     getImages = async () => {
         let images = await this.callApiImages();
@@ -67,6 +87,18 @@ class StoreDetail extends Component {
         ];
     };
 
+    renderStoreCard = () => {
+        let store = this.state.store;
+        return <StoreCard
+            imgSrc={store.imgSrc}
+            imgAlt={store.imgAlt}
+            name={store.name}
+            address={store.address}
+            tel={store.tel}
+            description={store.description}
+        />;
+    };
+
     renderImgaes = () => {
         return this.state.images.map((img, i) => {
             return <div className='img' key={i}>
@@ -91,25 +123,21 @@ class StoreDetail extends Component {
     };
 
     render() {
-        const { no, imgSrc, imgAlt, name, address, tel, description } = this.props;
+        console.log(this.props.match.params);
+        let no = this.props.match.params.no;
+        let name = this.state && this.state.store && this.state.store.name;
+        let isStore = this.state && this.state.store;
         let token = 'test' // Test 용 토큰
         let isImages = this.state && this.state.images;
         let isReviews = this.state && this.state.reviews;
 
         return (
-            <Modal to={'/'}>
+            <Modal to={'/stores'}>
                 <article className='store-detail'>
                     <Link to={`/stores/${no}?reserve=true&token=${token}`}><button className='btn-reserve'>예약하기</button></Link>
                     <SectionDivider />
                     <section className='store-info'>
-                        <StoreCard
-                            imgSrc={imgSrc}
-                            imgAlt={imgAlt}
-                            name={name}
-                            address={address}
-                            tel={tel}
-                            description={description}
-                        />
+                        {isStore && this.renderStoreCard()}
                     </section>
                     <SectionDivider />
                     <TitleBox contents={`${name}의 분위기 넘치는 사진들`} />

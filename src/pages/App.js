@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import './App.scss';
-import { Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import queryString from 'query-string';
 import Map from '../components/Map';
 import StoreCard from '../organisms/StoreCard';
-import StoreDetail from '../organisms/StoreDetail';
-import Reservation from '../organisms/Reservation';
+import StoreDetail from './StoreDetail';
+import Reservation from './Reservation';
 
 class App extends Component {
 
@@ -46,7 +46,7 @@ class App extends Component {
             return <article
                 className='store'
                 key={store.no}>
-                <Link to={`/stores/${store.no}`}
+                <Link to={`stores/${store.no}`}
                     style={{ textDecoration: 'none' }}>
                     <StoreCard
                         imgSrc={store.imgSrc}
@@ -60,44 +60,18 @@ class App extends Component {
         });
     };
 
-    renderDetail = () => {
-        let no = this.props.match.params.no;
-        let store = this.state.stores[no - 1];
-        
-        return <StoreDetail
-            no={no}
-            imgSrc={store.imgSrc}
-            imgAlt={store.imgAlt}
-            name={store.name}
-            address={store.address}
-            tel={store.tel}
-            description={store.description}
-        />;
-    };
-
-    renderReservation = () => {
-        return <Reservation
-
-        />;
-    };
-
     render() {
         let stores = this.state && this.state.stores;
-        let isDetail = stores && this.props.match.params && this.props.match.params.no;
-        let query = queryString.parse(this.props.location.search);
-        let isReserve = query && query.reserve && query.reserve === 'true';
 
         return (
             <div className='main'>
-                <section>
-                    {isDetail && ((isReserve && this.renderReservation()) || this.renderDetail())}
-                </section>
                 <section className={(stores && 'with-stores') || 'no-stores'}>
                     {stores && this.renderCards()}
                 </section>
                 <section className='map'>
                     <Map />
                 </section>
+                <Route path={`/stores/:no`} component={StoreDetail} />
             </div>
         );
     }
