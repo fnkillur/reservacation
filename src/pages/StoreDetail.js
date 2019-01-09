@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './StoreDetail.scss';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import Image from '../components/Image';
 import TitleBox from '../components/TitleBox';
 import SectionDivider from '../components/SectionDivider';
@@ -123,7 +122,6 @@ class StoreDetail extends Component {
     };
 
     render() {
-        console.log(this.props.match.params);
         let no = this.props.match.params.no;
         let name = this.state && this.state.store && this.state.store.name;
         let isStore = this.state && this.state.store;
@@ -134,7 +132,7 @@ class StoreDetail extends Component {
         return (
             <Modal to={'/stores'}>
                 <article className='store-detail'>
-                    <Link to={`/stores/${no}?reserve=true&token=${token}`}><button className='btn-reserve'>예약하기</button></Link>
+                    <Link to={`/stores/${no}/${token}`}><button className='btn-reserve'>예약하기</button></Link>
                     <SectionDivider />
                     <section className='store-info'>
                         {isStore && this.renderStoreCard()}
@@ -155,15 +153,5 @@ class StoreDetail extends Component {
         );
     }
 }
-
-StoreDetail.propTypes = {
-    no: PropTypes.string.isRequired,
-    imgSrc: PropTypes.string,
-    imgAlt: PropTypes.string,
-    name: PropTypes.string,
-    address: PropTypes.string,
-    tel: PropTypes.string,
-    description: PropTypes.string,
-};
 
 export default StoreDetail

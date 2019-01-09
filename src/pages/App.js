@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.scss';
-import { Route, Link } from 'react-router-dom';
-import queryString from 'query-string';
+import { Route, Link, Switch } from 'react-router-dom';
 import Map from '../components/Map';
 import StoreCard from '../organisms/StoreCard';
 import StoreDetail from './StoreDetail';
@@ -71,7 +70,10 @@ class App extends Component {
                 <section className='map'>
                     <Map />
                 </section>
-                <Route path={`/stores/:no`} component={StoreDetail} />
+                <Switch>
+                    <Route path={'/stores/:no/:token'} component={Reservation} />
+                    <Route path={`/stores/:no`} component={StoreDetail} />
+                </Switch>
             </div>
         );
     }

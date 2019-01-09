@@ -4,12 +4,6 @@ import TitleBox from '../components/TitleBox';
 import Modal from '../components/Modal';
 
 class Reservation extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            watiingCount: 0,
-        };
-    }
 
     componentDidMount() {
         this.getWaitingCount();
@@ -29,12 +23,12 @@ class Reservation extends Component {
 
     render() {
         return (
-            <Modal to={'/'}>
+            <Modal to={'/stores'}>
                 <article className='reservation'>
                     <button className='btn-pay'>결제하기</button>
                     <section className='wait-people'>
                         <TitleBox contents='예상 대기 인원' />
-                        <div className='wait-count'>{this.state.watiingCount || ''}</div>
+                        <div className='wait-count'>{(this.state && this.state.watiingCount) || ''}</div>
                     </section>
                     <section>
 
