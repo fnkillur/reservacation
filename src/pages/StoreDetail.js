@@ -123,16 +123,18 @@ class StoreDetail extends Component {
 
     render() {
         let no = this.props.match.params.no;
+        let token = false // Test 용 토큰
+        let toReserve = <Link to={`/stores/${no}/${token}`}><button className='btn-reserve'>예약하기</button></Link>;
+        let toLogin = <Link to={`/stores/${no}/login`}><button className='btn-reserve'>로그인 후 예약하기</button></Link>;
         let name = this.state && this.state.store && this.state.store.name;
         let isStore = this.state && this.state.store;
-        let token = 'test' // Test 용 토큰
         let isImages = this.state && this.state.images;
         let isReviews = this.state && this.state.reviews;
 
         return (
             <Modal to={'/stores'}>
                 <article className='store-detail'>
-                    <Link to={`/stores/${no}/${token}`}><button className='btn-reserve'>예약하기</button></Link>
+                    {(token && toReserve) || toLogin}
                     <SectionDivider />
                     <section className='store-info'>
                         {isStore && this.renderStoreCard()}

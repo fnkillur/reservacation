@@ -5,6 +5,7 @@ import Map from '../components/Map';
 import StoreCard from '../organisms/StoreCard';
 import StoreDetail from './StoreDetail';
 import Reservation from './Reservation';
+import Login from './Login';
 
 class App extends Component {
 
@@ -70,7 +71,9 @@ class App extends Component {
                 <section className='map'>
                     <Map />
                 </section>
+
                 <Switch>
+                    <Route path={'/stores/:no/login'} component={Login} />
                     <Route path={'/stores/:no/:token'} component={Reservation} />
                     <Route path={`/stores/:no`} component={StoreDetail} />
                 </Switch>
