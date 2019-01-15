@@ -26,7 +26,7 @@ class App extends Component {
             return <article
                 className='store'
                 key={store.id}>
-                <Link to={`stores/${store.no}`}
+                <Link to={`stores/${store.id}`}
                     style={{ textDecoration: 'none' }}>
                     <StoreCard
                         imgSrc={store.imgsrc}
