@@ -53,9 +53,9 @@ class App extends Component {
                 </section>
 
                 <Switch>
-                    <Route path={'/stores/:no/login'} component={Login} />
-                    <Route path={'/stores/:no/:token'} component={Reservation} />
-                    <Route path={`/stores/:no`} component={StoreDetail} />
+                    <Route path={'/stores/:id/login'} component={Login} />
+                    <Route path={'/stores/:id/:token'} component={Reservation} />
+                    <Route path={`/stores/:id`} component={StoreDetail} />
                 </Switch>
             </div>
         );
