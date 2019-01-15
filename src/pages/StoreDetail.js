@@ -7,34 +7,24 @@ import SectionDivider from '../components/SectionDivider';
 import Modal from '../components/Modal';
 import StoreCard from '../organisms/StoreCard';
 import ReviewCard from '../organisms/ReviewCard';
+import * as storeService from '../_common/services/store.serivce';
 
 class StoreDetail extends Component {
 
     componentDidMount() {
-        this.getStore();
-        this.getImages();
-        this.getReviews();
+        let id = this.props.match.params.id;
+        id && this.fetchStoreDetail(id);
     }
 
-    getStore = async () => {
-        let store = await this.callApiStore();
-        this.setState({
-            store
-        });
-    };
+    fetchStoreDetail = async (id) => {
+        let ress = await Promise.all([
+            storeService.getStoreById(id),
+        ]);
 
-    callApiStore = () => {
-        // Api 호출 Test Code
-        return {
-            imgSrc: 'https://www.jeongdong.or.kr/static/portal/img/HKPU_04_04_pic1.jpg',
-            imgAlt: '스타벅스 아주대점',
-            name: '스타벅스 아주대점',
-            address: '경기도 수원시 팔달구 우만2동 월드컵로 205',
-            tel: '031-215-4516',
-            description: '카페',
-            no: 1,
-        };
-    };
+        this.setState({
+            store: ress[0].data[0],
+        });
+    }
 
     getImages = async () => {
         let images = await this.callApiImages();
@@ -62,38 +52,14 @@ class StoreDetail extends Component {
         ];
     };
 
-    getReviews = async () => {
-        let reviews = await this.callApiReview();
-        this.setState({
-            reviews
-        });
-    };
-
-    callApiReview = () => {
-        // Api 호출 Test Code
-        return [
-            {
-                imgSrc: 'https://www.jeongdong.or.kr/static/portal/img/HKPU_04_04_pic1.jpg',
-                imgAlt: '리뷰이미지1',
-                title: '맛있어요.',
-                description: '뻥이야 존나맛없어.',
-            }, {
-                imgSrc: 'https://www.jeongdong.or.kr/static/portal/img/HKPU_04_04_pic1.jpg',
-                imgAlt: '리뷰이미지2',
-                title: '맛없네요 시발',
-                description: '이게 음식이야? 장사하기싫어?',
-            }
-        ];
-    };
-
     renderStoreCard = () => {
         let store = this.state.store;
         return <StoreCard
             imgSrc={store.imgSrc}
-            imgAlt={store.imgAlt}
+            imgAlt={store.name}
             name={store.name}
             address={store.address}
-            tel={store.tel}
+            tel={store.phone}
             description={store.description}
         />;
     };
@@ -109,27 +75,28 @@ class StoreDetail extends Component {
     };
 
     renderReviews = () => {
-        return this.state.reviews.map((review, i) => {
-            return <div className='review' key={i}>
-                <ReviewCard
-                    imgSrc={review.imgSrc}
-                    imgAlt={review.imgAlt}
-                    title={review.title}
-                    description={review.description}
-                />
-            </div>
-        });
+        let reviews = (this.state.store.Reviews.length
+            && this.state.store.Reviews.map((review, i) => {
+                return <div className='review' key={i}>
+                    <ReviewCard
+                        imgSrc={review.imgSrc}
+                        imgAlt={review.title}
+                        title={review.title}
+                        description={review.description}
+                    />
+                </div>
+            })) || `등록된 리뷰가 없습니다. 가보신적이 있으신가요? 리뷰를 작성해보세요!`;
+        return reviews;
     };
 
     render() {
-        let no = this.props.match.params.no;
+        let id = this.props.match.params.id;
         let token = false // Test 용 토큰
-        let toReserve = <Link to={`/stores/${no}/${token}`}><button className='btn-reserve'>예약하기</button></Link>;
-        let toLogin = <Link to={`/stores/${no}/login`}><button className='btn-reserve'>로그인 후 예약하기</button></Link>;
+        let toReserve = <Link to={`/stores/${id}/${token}`}><button className='btn-reserve'>예약하기</button></Link>;
+        let toLogin = <Link to={`/stores/${id}/login`}><button className='btn-reserve'>로그인 후 예약하기</button></Link>;
         let name = this.state && this.state.store && this.state.store.name;
         let isStore = this.state && this.state.store;
         let isImages = this.state && this.state.images;
-        let isReviews = this.state && this.state.reviews;
 
         return (
             <Modal to={'/stores'}>
@@ -148,7 +115,7 @@ class StoreDetail extends Component {
                     <button className='btn-review'>리뷰</button>
                     <button className='btn-qna'>QnA</button>
                     <section className='review-list'>
-                        {isReviews && this.renderReviews()}
+                        {isStore && this.renderReviews()}
                     </section>
                 </article>
             </Modal>

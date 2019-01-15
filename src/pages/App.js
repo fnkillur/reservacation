@@ -29,8 +29,8 @@ class App extends Component {
                 <Link to={`stores/${store.id}`}
                     style={{ textDecoration: 'none' }}>
                     <StoreCard
-                        imgSrc={store.imgsrc}
-                        imgAlt={store.imgalt}
+                        imgSrc={store.imgSrc}
+                        imgAlt={store.name}
                         name={store.name}
                         address={store.address}
                         tel={store.phone}
