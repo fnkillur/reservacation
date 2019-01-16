@@ -6,7 +6,7 @@ import StoreCard from '../organisms/StoreCard';
 import StoreDetail from './StoreDetail';
 import Reservation from './Reservation';
 import Login from './Login';
-import * as storeService from '../_common/services/store.serivce';
+import * as storeService from '../_common/services/store.service';
 
 class App extends Component {
 

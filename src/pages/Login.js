@@ -24,9 +24,10 @@ class Login extends Component {
     };
 
     render() {
-        
+        let id = this.props.match.params.id;
+
         return (
-            <Modal to={'/'}>
+            <Modal to={`/stores/${id}`}>
                 <article className='login'>
                     <section className='title'>
                         <img src='' alt='로고' style={{width: '100px', height: '100px'}} />

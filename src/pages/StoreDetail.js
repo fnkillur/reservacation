@@ -7,7 +7,7 @@ import SectionDivider from '../components/SectionDivider';
 import Modal from '../components/Modal';
 import StoreCard from '../organisms/StoreCard';
 import ReviewCard from '../organisms/ReviewCard';
-import * as storeService from '../_common/services/store.serivce';
+import * as storeService from '../_common/services/store.service';
 
 class StoreDetail extends Component {
 
@@ -17,40 +17,11 @@ class StoreDetail extends Component {
     }
 
     fetchStoreDetail = async (id) => {
-        let ress = await Promise.all([
-            storeService.getStoreById(id),
-        ]);
-
-        this.setState({
-            store: ress[0].data[0],
+        let res = await storeService.getStoreById(id);
+        res.data[0] && this.setState({
+            store: res.data[0]
         });
     }
-
-    getImages = async () => {
-        let images = await this.callApiImages();
-        this.setState({
-            images
-        });
-    };
-
-    callApiImages = () => {
-        // Api 호출 Test Code
-        return [
-            {
-                src: 'https://www.jeongdong.or.kr/static/portal/img/HKPU_04_04_pic1.jpg',
-                alt: '분위기있는사진1',
-            }, {
-                src: 'https://www.jeongdong.or.kr/static/portal/img/HKPU_04_04_pic1.jpg',
-                alt: '분위기있는사진2',
-            }, {
-                src: 'https://www.jeongdong.or.kr/static/portal/img/HKPU_04_04_pic1.jpg',
-                alt: '분위기있는사진3',
-            }, {
-                src: 'https://www.jeongdong.or.kr/static/portal/img/HKPU_04_04_pic1.jpg',
-                alt: '분위기있는사진4',
-            }
-        ];
-    };
 
     renderStoreCard = () => {
         let store = this.state.store;
@@ -64,20 +35,23 @@ class StoreDetail extends Component {
         />;
     };
 
-    renderImgaes = () => {
-        return this.state.images.map((img, i) => {
-            return <div className='img' key={i}>
-                <Image
-                    src={img.src}
-                    alt={img.alt} />
-            </div>
-        });
+    renderImages = () => {
+        let alt = this.state.store.name;
+        let images = this.state.store.StoreImages.length
+            && this.store.StoreImages.map(img => {
+                return <div className='img' key={img.id}>
+                    <Image
+                        src={img.src}
+                        alt={alt} />
+                </div>
+            });
+        return images;
     };
 
     renderReviews = () => {
         let reviews = (this.state.store.Reviews.length
-            && this.state.store.Reviews.map((review, i) => {
-                return <div className='review' key={i}>
+            && this.state.store.Reviews.map(review => {
+                return <div className='review' key={review.id}>
                     <ReviewCard
                         imgSrc={review.imgSrc}
                         imgAlt={review.title}
@@ -109,7 +83,7 @@ class StoreDetail extends Component {
                     <SectionDivider />
                     <TitleBox contents={`${name}의 분위기 넘치는 사진들`} />
                     <section className='img-list'>
-                        {isImages && this.renderImgaes()}
+                        {isImages && this.renderImages()}
                     </section>
                     <SectionDivider />
                     <button className='btn-review'>리뷰</button>
