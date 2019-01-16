@@ -8,8 +8,15 @@ import Modal from '../components/Modal';
 import StoreCard from '../organisms/StoreCard';
 import ReviewCard from '../organisms/ReviewCard';
 import * as storeService from '../_common/services/store.service';
+import * as reviewService from '../_common/services/review.service';
 
 class StoreDetail extends Component {
+
+    state = {
+        store: '',
+        images: '',
+        reviews: ''
+    }
 
     componentDidMount() {
         let id = this.props.match.params.id;
@@ -17,9 +24,15 @@ class StoreDetail extends Component {
     }
 
     fetchStoreDetail = async (id) => {
-        let res = await storeService.getStoreById(id);
-        res.data[0] && this.setState({
-            store: res.data[0]
+        let allData = await Promise.all([
+            storeService.getStoreById(id, 0, 5),
+            reviewService.getReviewsByStoreId(id, 0, 5)
+        ]);
+
+        allData && this.setState({
+            store: allData[0].data.store,
+            images: allData[0].data.images,
+            reviews: allData[1].data
         });
     }
 
@@ -36,31 +49,30 @@ class StoreDetail extends Component {
     };
 
     renderImages = () => {
-        let alt = this.state.store.name;
-        let images = this.state.store.StoreImages.length
-            && this.store.StoreImages.map(img => {
-                return <div className='img' key={img.id}>
-                    <Image
-                        src={img.src}
-                        alt={alt} />
-                </div>
-            });
-        return images;
+        return this.state.images.data.map(img => {
+            return <div className='img' key={img.id}>
+                <Image
+                    src={img.src}
+                    alt={this.state.store.name} />
+            </div>
+        });
     };
 
     renderReviews = () => {
-        let reviews = (this.state.store.Reviews.length
-            && this.state.store.Reviews.map(review => {
-                return <div className='review' key={review.id}>
-                    <ReviewCard
-                        imgSrc={review.imgSrc}
-                        imgAlt={review.title}
-                        title={review.title}
-                        description={review.description}
-                    />
-                </div>
-            })) || `등록된 리뷰가 없습니다. 가보신적이 있으신가요? 리뷰를 작성해보세요!`;
-        return reviews;
+        return this.state.reviews.data.map(review => {
+            return <div className='review' key={review.id}>
+                <ReviewCard
+                    imgSrc={review.imgSrc}
+                    imgAlt={review.title}
+                    title={review.title}
+                    description={review.description}
+                />
+            </div>
+        });
+    };
+
+    addArrow = (img) => {
+        return <button className='btn-arrow'>{img}</button>;
     };
 
     render() {
@@ -68,9 +80,7 @@ class StoreDetail extends Component {
         let token = false // Test 용 토큰
         let toReserve = <Link to={`/stores/${id}/${token}`}><button className='btn-reserve'>예약하기</button></Link>;
         let toLogin = <Link to={`/stores/${id}/login`}><button className='btn-reserve'>로그인 후 예약하기</button></Link>;
-        let name = this.state && this.state.store && this.state.store.name;
-        let isStore = this.state && this.state.store;
-        let isImages = this.state && this.state.images;
+        let imageTitle = (this.state.images.data && `${this.state.store.name}의 분위기 넘치는 사진들`) || '';
 
         return (
             <Modal to={'/stores'}>
@@ -78,18 +88,20 @@ class StoreDetail extends Component {
                     {(token && toReserve) || toLogin}
                     <SectionDivider />
                     <section className='store-info'>
-                        {isStore && this.renderStoreCard()}
+                        {this.state.store && this.renderStoreCard()}
                     </section>
                     <SectionDivider />
-                    <TitleBox contents={`${name}의 분위기 넘치는 사진들`} />
+                    <TitleBox contents={imageTitle} />
                     <section className='img-list'>
-                        {isImages && this.renderImages()}
+                        {this.state.images.data && this.renderImages()}
+                        {this.state.images.count > 5 && this.addArrow('>')}
                     </section>
                     <SectionDivider />
                     <button className='btn-review'>리뷰</button>
                     <button className='btn-qna'>QnA</button>
                     <section className='review-list'>
-                        {isStore && this.renderReviews()}
+                        {(this.state.reviews.data && this.renderReviews()) || '등록된 리뷰가 없습니다. 가보신적이 있으신가요? 리뷰를 작성해보세요!'}
+                        {this.state.reviews.count > 5 && this.addArrow('>')}
                     </section>
                 </article>
             </Modal>

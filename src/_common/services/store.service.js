@@ -1,9 +1,9 @@
 import * as apiService from '../services/_/api.service';
 
 export function getStores() {
-    return apiService.getAction('api/stores');
+    return apiService.getAction('stores');
 }
 
-export function getStoreById(id) {
-    return apiService.getAction(`api/store/${id}`);
+export function getStoreById(id, pageNo, perPageNo) {
+    return apiService.getAction(`store/${id}?pageNo=${pageNo}&perPageNo=${perPageNo}`);
 }

@@ -1,1 +1,1 @@
-export const defaultUrl = 'http://10.0.0.40';
+export const defaultUrl = 'http://api.reservacation.com';
