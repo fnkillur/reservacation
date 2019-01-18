@@ -29,12 +29,12 @@ class App extends Component {
                 <Link to={`stores/${store.id}`}
                     style={{ textDecoration: 'none' }}>
                     <StoreCard
-                        imgSrc={store.imgSrc}
-                        imgAlt={store.name}
-                        name={store.name}
-                        address={store.address}
-                        tel={store.phone}
-                        description={store.description} />
+                        imgSrc={store.img_src}
+                        imgAlt={store.store_name}
+                        name={store.store_name}
+                        address={store.address + store.detail_address}
+                        tel={store.store_tel}
+                        description={store.store_description} />
                 </Link>
             </article>
         });
@@ -55,7 +55,7 @@ class App extends Component {
                 <Switch>
                     <Route path={'/stores/:id/login'} component={Login} />
                     <Route path={'/stores/:id/:token'} component={Reservation} />
-                    <Route path={`/stores/:id`} component={StoreDetail} />
+                    <Route path={'/stores/:id'} component={StoreDetail} />
                 </Switch>
             </div>
         );

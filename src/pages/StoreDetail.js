@@ -39,12 +39,12 @@ class StoreDetail extends Component {
     renderStoreCard = () => {
         let store = this.state.store;
         return <StoreCard
-            imgSrc={store.imgSrc}
-            imgAlt={store.name}
-            name={store.name}
-            address={store.address}
-            tel={store.phone}
-            description={store.description}
+            imgSrc={store.img_src}
+            imgAlt={store.store_name}
+            name={store.store_name}
+            address={store.address + store.detail_address}
+            tel={store.store_tel}
+            description={store.store_description}
         />;
     };
 
@@ -53,7 +53,7 @@ class StoreDetail extends Component {
             return <div className='img' key={img.id}>
                 <Image
                     src={img.src}
-                    alt={this.state.store.name} />
+                    alt={this.state.store.store_name} />
             </div>
         });
     };
@@ -62,7 +62,7 @@ class StoreDetail extends Component {
         return this.state.reviews.data.map(review => {
             return <div className='review' key={review.id}>
                 <ReviewCard
-                    imgSrc={review.imgSrc}
+                    imgSrc={review.img_src}
                     imgAlt={review.title}
                     title={review.title}
                     description={review.description}
@@ -80,7 +80,7 @@ class StoreDetail extends Component {
         let token = false // Test 용 토큰
         let toReserve = <Link to={`/stores/${id}/${token}`}><button className='btn-reserve'>예약하기</button></Link>;
         let toLogin = <Link to={`/stores/${id}/login`}><button className='btn-reserve'>로그인 후 예약하기</button></Link>;
-        let imageTitle = (this.state.images.data && `${this.state.store.name}의 분위기 넘치는 사진들`) || '';
+        let imageTitle = (this.state.images.data && `${this.state.store.store_name}의 분위기 넘치는 사진들`) || '';
 
         return (
             <Modal to={'/stores'}>
