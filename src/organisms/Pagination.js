@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import Main from './pages/Main';
+import './Pagination.scss';
 
-class App extends Component {
+class Pagination extends Component {
     render() {
         return (
             <div>
-                <Main />
+                
             </div>
         );
     }
 }
 
-export default App;
+
+export default Pagination;

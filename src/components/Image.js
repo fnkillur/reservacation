@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Image = (props) => {    
     let styles = {
@@ -11,6 +12,12 @@ const Image = (props) => {
     return (
         <img src={props.src} alt={props.alt} onError={props.onerror} style={styles} />
     );
+};
+
+Image.propTypes = {
+    src: PropTypes.string,
+    alt: PropTypes.string,
+    onError: PropTypes.string,
 };
 
 export default Image;

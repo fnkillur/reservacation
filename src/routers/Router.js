@@ -1,12 +1,15 @@
-import React, {Component} from 'react';
-import {BrowserRouter, Route} from 'react-router-dom';
-import App from '../App';
+import React, { Component } from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
+import App from '../pages/App';
 
 class Router extends Component {
     render() {
         return (
             <BrowserRouter>
-                <Route exact path="/" component={App}/>
+                <div>
+                    <Route exact path="/" component={App} />
+                    <Route path="/stores" component={App} />
+                </div>
             </BrowserRouter>
         );
     }

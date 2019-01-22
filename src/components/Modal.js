@@ -9,9 +9,7 @@ fontawesome.library.add(faTimes);
 
 class Modal extends Component {
     render() {
-        if (!this.props.show) {
-            return null;
-        }
+        const { to, children } = this.props;
 
         return (
             <div className='backdrop'>
@@ -27,8 +25,7 @@ class Modal extends Component {
 }
 
 Modal.propTypes = {
-    onClose: PropTypes.func.isRequired,
-    show: PropTypes.bool,
+    to: PropTypes.string.isRequired,
     children: PropTypes.node,
 };
 

@@ -1,0 +1,36 @@
+.reservation {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+
+    .btn-pay {
+        font-weight: bold;
+        border: 0;
+        border-radius: 5px;
+        cursor: pointer;
+        outline: none;
+        width: 100%;
+        height: 30px;
+        background-color: #FA5858;
+        font-size: 15px;
+        color: white;
+        margin: 0 auto;
+    }
+
+    .wait-people {
+        width: 100%;
+        height: 80px;
+        margin-top: 20px;
+        padding: 15px 0;
+        text-align: center;
+        color: white;
+        border: 0;
+        background-color: #F78181;
+
+        .wait-count {
+            font-size: 40px;
+            font-weight: bold;
+        }
+    }
+}

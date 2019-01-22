@@ -1,0 +1,13 @@
+.store-list {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    .store {
+        border-bottom: 1px solid #e6e6e6;
+        padding: 15px 8px;
+        cursor: pointer;
+    }
+}
+
