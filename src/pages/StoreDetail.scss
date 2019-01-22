@@ -65,22 +65,10 @@
         margin-left: 10px;
     }
 
-    .review-list {
-        display: flex;
+    .reviews {
         align-items: center;
         margin-top: 10px;
-        
-        .review {
-            width: 90px;
-            height: 100px;
-            margin-right: 10px;
-            cursor: pointer;
-            
-            .img {
-                width: 90px;
-                height: 92px;
-            }
-        }
+        margin-left: -10px;
     }
 }
 
