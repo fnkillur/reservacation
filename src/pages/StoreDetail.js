@@ -71,8 +71,12 @@ class StoreDetail extends Component {
         });
     };
 
-    addArrow = (img) => {
-        return <button className='btn-arrow'>{img}</button>;
+    fetchNextReviews = async (pageNo, perPageNo) => {
+        let id = this.props.match.params.id;
+        let res = await reviewService.getReviewsByStoreId(id, pageNo, perPageNo);
+        this.setState({
+            reviews: res.data
+        })
     };
 
     render() {
@@ -81,7 +85,9 @@ class StoreDetail extends Component {
         let toReserve = <Link to={`/stores/${id}/${token}`}><button className='btn-reserve'>예약하기</button></Link>;
         let toLogin = <Link to={`/stores/${id}/login`}><button className='btn-reserve'>로그인 후 예약하기</button></Link>;
         let imageTitle = (this.state.images.data && `${this.state.store.store_name}의 분위기 넘치는 사진들`) || '';
-
+        let currPageNo = this.state.reviews && this.state.reviews.pageNo;
+        let totalPageCount = this.state.reviews && this.state.reviews.totalPageCount;
+        
         return (
             <Modal to={'/stores'}>
                 <article className='store-detail'>
@@ -100,8 +106,9 @@ class StoreDetail extends Component {
                     <button className='btn-review'>리뷰</button>
                     <button className='btn-qna'>QnA</button>
                     <section className='review-list'>
+                        {(currPageNo !== 0) && <button className='btn-arrow' onClick={() => { this.fetchNextReviews(currPageNo - 1, 5) }}>◁</button>}
                         {(this.state.reviews.data && this.renderReviews()) || '등록된 리뷰가 없습니다. 가보신적이 있으신가요? 리뷰를 작성해보세요!'}
-                        {this.state.reviews.count > 5 && this.addArrow('>')}
+                        {(totalPageCount - 1) > currPageNo && <button className='btn-arrow' onClick={() => { this.fetchNextReviews(currPageNo + 1, 5) }}>▷</button>}
                     </section>
                 </article>
             </Modal>

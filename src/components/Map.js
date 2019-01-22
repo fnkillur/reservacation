@@ -2,7 +2,7 @@
 /*global daum*/
 
 import React, {Component} from 'react';
-import './Map.css';
+import './Map.scss';
 
 let map;
 
