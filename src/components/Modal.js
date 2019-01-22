@@ -10,15 +10,15 @@ fontawesome.library.add(faTimes);
 
 class Modal extends Component {
     render() {
-        const { to, children } = this.props;
+        const { to, children, onClose } = this.props;
 
         return (
             <div className='backdrop'>
                 <div className='modal'>
                     <section className='close'>
-                        <Link to={to} style={{ textDecoration: 'none' }}><FontAwesomeIcon onClick={this.props.onClose} icon={faTimes} /></Link>
+                        <Link to={to} style={{ textDecoration: 'none' }}><FontAwesomeIcon onClick={onClose} icon={faTimes} /></Link>
                     </section>
-                    {this.props.children}
+                    {children}
                 </div>
             </div>
         );
