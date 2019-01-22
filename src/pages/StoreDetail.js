@@ -24,7 +24,7 @@ class StoreDetail extends Component {
     }
 
     fetchStoreDetail = async (id) => {
-        let res = await storeService.getStoreById(id, 0, 5);
+        let res = await storeService.getStoreById(id);
 
         this.setState({
             store: res.data.store,
@@ -45,7 +45,7 @@ class StoreDetail extends Component {
     };
 
     renderImages = () => {
-        return this.state.images.data.map(img => {
+        return this.state.images.map(img => {
             return <div className='img' key={img.id}>
                 <Image
                     src={img.src}
@@ -66,7 +66,7 @@ class StoreDetail extends Component {
         let token = false // Test 용 토큰
         let toReserve = <Link to={`/stores/${id}/${token}`}><button className='btn-reserve'>예약하기</button></Link>;
         let toLogin = <Link to={`/stores/${id}/login`}><button className='btn-reserve'>로그인 후 예약하기</button></Link>;
-        let imageTitle = (this.state.images.data && `${this.state.store.store_name}의 분위기 넘치는 사진들`) || '';
+        let imageTitle = (this.state.images && `${this.state.store.store_name}의 분위기 넘치는 사진들`) || '';
 
         return (
             <Modal to={'/stores'}>
@@ -79,7 +79,7 @@ class StoreDetail extends Component {
                     <SectionDivider />
                     <TitleBox contents={imageTitle} />
                     <section className='img-list'>
-                        {this.state.images.data && this.renderImages()}
+                        {this.state.images && this.renderImages()}
                     </section>
                     <SectionDivider />
                     <button className='btn-review'>리뷰</button>

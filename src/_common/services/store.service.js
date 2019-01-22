@@ -4,6 +4,6 @@ export function getStores() {
     return apiService.getAction('stores');
 }
 
-export function getStoreById(id, pageNo, perPageNo) {
-    return apiService.getAction(`store/${id}?pageNo=${pageNo}&perPageNo=${perPageNo}`);
+export function getStoreById(id) {
+    return apiService.getAction(`store/${id}`);
 }
