@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './Modal.scss';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as fontawesome from "@fortawesome/fontawesome-svg-core";
 import { faTimes } from '@fortawesome/fontawesome-free-solid'
 
@@ -14,9 +15,9 @@ class Modal extends Component {
         return (
             <div className='backdrop'>
                 <div className='modal'>
-                    <header>
-                        <FontAwesomeIcon onClick={this.props.onClose} icon={faTimes}/>
-                    </header>
+                    <section className='close'>
+                        <Link to={to} style={{ textDecoration: 'none' }}><FontAwesomeIcon onClick={this.props.onClose} icon={faTimes} /></Link>
+                    </section>
                     {this.props.children}
                 </div>
             </div>
