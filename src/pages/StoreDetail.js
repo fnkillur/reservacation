@@ -60,21 +60,17 @@ class StoreDetail extends Component {
         });
     };
 
-    convertText = (text) => {
-        return JSON.stringify(text);
-    }
-
     render() {
         let id = this.props.match.params.id;
         let query = queryString.parse(this.props.location.search);
-        let token = false // Test 용 토큰
+        let token = false; // Test 용 토큰
         let toReserve = <Link to={`/stores/${id}/${token}`}><button className='btn-reserve'>예약하기</button></Link>;
         let imageTitle = (this.state.images && `${this.state.store.store_name}의 분위기 넘치는 사진들`) || '';
 
         return (
             <Modal to={'/stores'}>
                 <article className='store-detail'>
-                    <Link to={{ pathname: '/login', search: `callback_url=${this.convertText('/stores/${id}?reviewPageNo=${query.reviewPageNo}&perPageNo=${query.perPageNo}')}` }}>
+                    <Link to={{ pathname: '/login', search: `callback_url=/stores/${id}?reviewPageNo=${query.reviewPageNo}&perPageNo=${query.perPageNo}` }}>
                         <button className='btn-reserve'>로그인 후 예약하기</button>
                     </Link>
                     <SectionDivider />

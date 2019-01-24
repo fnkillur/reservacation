@@ -26,8 +26,7 @@ class Login extends Component {
 
     render() {
         let id = this.props.match.params.id;
-        let callback_url = this.props.location.search;
-        console.log(callback_url);
+        let callback_url = this.props.location.search.replace(new RegExp('\\?.+url=', 'g'), '');
         return (
             <Modal to={callback_url}>
                 <article className='login'>
