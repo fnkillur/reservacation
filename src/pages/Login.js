@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Login.scss';
+import queryString from 'query-string';
 import Modal from '../components/Modal';
 import Input from '../components/Input';
 import TitleBox from '../components/TitleBox';
@@ -25,9 +26,10 @@ class Login extends Component {
 
     render() {
         let id = this.props.match.params.id;
-        console.log(this.props);
+        let callback_url = this.props.location.search;
+        console.log(callback_url);
         return (
-            <Modal to={`/stores/${id}?reviewPageNo=0&imagePageNo=0&perPageNo=5`}>
+            <Modal to={callback_url}>
                 <article className='login'>
                     <section className='title'>
                         <img src='' alt='로고' style={{width: '100px', height: '100px'}} />

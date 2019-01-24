@@ -21,7 +21,6 @@ class App extends Component {
                 </section>
 
                 <Switch>
-                    <Route path={'/stores/:id/login'} component={Login} />
                     <Route path={'/stores/:id/:token'} component={Reservation} />
                     <Route path={'/stores/:id'} component={StoreDetail} />
                 </Switch>
