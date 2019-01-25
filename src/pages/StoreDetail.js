@@ -70,7 +70,7 @@ class StoreDetail extends Component {
         return (
             <Modal to={'/stores'}>
                 <article className='store-detail'>
-                    <Link to={{ pathname: '/login', search: `callback_url=/stores/${id}?reviewPageNo=${query.reviewPageNo}&perPageNo=${query.perPageNo}` }}>
+                    <Link to={{ pathname: '/auth/login', search: `callback_url=/stores/${id}?reviewPageNo=${query.reviewPageNo}&perPageNo=${query.perPageNo}` }}>
                         <button className='btn-reserve'>로그인 후 예약하기</button>
                     </Link>
                     <SectionDivider />

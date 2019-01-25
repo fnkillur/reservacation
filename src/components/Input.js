@@ -2,6 +2,7 @@ import React from 'react';
 
 const Input = (props) => {
     let style = {
+        boxSizing: 'border-box',
         borderRadius: '5px',
         padding: '10px',
         margin: '0',
@@ -16,6 +17,8 @@ const Input = (props) => {
             placeholder={props.placeholder}
             value={props.value}
             onChange={props.onChange}
+            type={props.type || 'text'}
+            name={props.name}
         />
     );
 };

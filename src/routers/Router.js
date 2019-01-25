@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import App from '../pages/App';
-import Login from '../pages/Login';
+import Auth from '../pages/Auth';
 
 class Router extends Component {
     render() {
@@ -10,7 +10,9 @@ class Router extends Component {
                 <div>
                     <Route exact path="/" component={App} />
                     <Route path="/stores" component={App} />
-                    <Route path='/login' component={Login} />
+                    <Route path='/auth/login' component={Auth} />
+                    <Route path='/auth/register' component={Auth} />
+                    <Route path='/auth/findPassword' component={Auth} />
                 </div>
             </BrowserRouter>
         );

@@ -3,13 +3,10 @@ import './App.scss';
 import { Route, Switch } from 'react-router-dom';
 import StoreList from '../organisms/StoreList';
 import Map from '../components/Map';
-import StoreDetail from './StoreDetail';
 import Reservation from './Reservation';
-import Login from './Login';
-
+import StoreDetail from './StoreDetail';
 
 class App extends Component {
-
     render() {
         return (
             <div className='main'>

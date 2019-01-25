@@ -1,13 +1,8 @@
-.login {
-    margin: 0;
+.auth {
+    margin: 100px auto;
     padding: 0;
-    width: 100%;
-    height: 100%;
+    width: 500px;
     font-size: 13px;
-
-    section {
-        margin-bottom: 20px;
-    }
 
     .title {
         font-size: 24px;
@@ -15,26 +10,19 @@
         display:flex;
         flex-direction: column;
         align-items: center;
+        margin-bottom: 20px;
     }
 
-    .btn-submit {
-        font-weight: bold;
-        border: 0;
-        border-radius: 5px;
-        cursor: pointer;
-        outline: none;
-        width: 100%;
-        height: 40px;
-        background-color: #58ACFA;
-        font-size: 15px;
-        color: white;
-    }
-
-    .sign-up {
+    .link-list {
         margin-top: 20px;
         text-align: center;
 
-        .btn-sign-up {
+        .link-box {
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-link {
             font-weight: bold;
             font-size: 14px;
             color: #0366d6;
