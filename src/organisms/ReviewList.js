@@ -14,8 +14,12 @@ class ReviewList extends Component {
         this.fetchStoreReviews(this.props.reviewPageNo, this.props.perPageNo);
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextState.reviews.totalPageCount > 0;
+    }
+
     fetchStoreReviews = async (reviewPageNo, perPageNo) => {
-        let res = await reviewService.getReviewsByStoreId(this.props.id, reviewPageNo, perPageNo);
+        let res = await reviewService.getReviewsByStoreId(this.props.id, reviewPageNo - 1, perPageNo);
 
         this.setState({
             reviews: res.data,

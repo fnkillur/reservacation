@@ -9,7 +9,8 @@ class AuthForm extends Component {
         password: '',
         rePassword: '',
         phone: '',
-        name: ''
+        name: '',
+        role: 'user'
     }
 
     getFormData = (formIndex) => {
@@ -25,7 +26,7 @@ class AuthForm extends Component {
             onChange: this.handleChange,
             type: 'password'
         }, {
-            name: 'repassword',
+            name: 'rePassword',
             value: this.state.rePassword,
             placeholder: '비밀번호 확인',
             onChange: this.handleChange,

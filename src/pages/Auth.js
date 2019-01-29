@@ -5,20 +5,56 @@ import TitleBox from '../components/TitleBox';
 import AuthForm from '../organisms/AuthForm';
 import DescriptionBox from '../components/DescriptionBox';
 import SectionDivider from '../components/SectionDivider';
+import * as userService from '../_common/services/user.service';
 
 class Auth extends Component {
 
+    getCallbackUrl = () => {
+        let queryParams = this.props.location.search;
+        return queryParams && queryParams.replace(new RegExp('\\?.+url=', 'g'), '');
+    };
+
     handleCreate = (formData) => {
-        console.log(formData);
+        let kind = this.props.match.path.split('/').pop();
+        let callbackUrl = this.getCallbackUrl();
+        switch (kind) {
+            case 'findPassword':
+                userService.findPassword(formData);
+                break;
+            case 'login':
+                userService.login(formData)
+                    .then(res => {
+                        userService.setLogin(res.data);
+                        let toUrl = callbackUrl || '/stores';
+                        window.location.href = toUrl;
+                    })
+                    .catch(error => {
+                        alert(error.response.data.message);
+                    });
+                break;
+            case 'register':
+                userService.register(formData)
+                    .then(res => {
+                        alert(res.data.message);
+                        let toUrl = (callbackUrl && `auth/login?callback_url=/${callbackUrl}`) || '/auth/login';
+                        window.location.href = toUrl;
+                    })
+                    .catch(error => {
+                        alert(error.response.data.message);
+                    });
+                break;
+        }
     };
 
     renderBtnLink = () => {
+        let callbackUrl = this.getCallbackUrl();
+
         return <section className='link-list'>
             <section className='link-box'>
                 <section className='description-box'>
                     <DescriptionBox contents={'새로 오셨나요?'} />
                 </section>
-                <Link to='/auth/register'>
+                <Link to={{ pathname: '/auth/register', search: `callbackUrl && callback_url=${callbackUrl}` }}>
                     <button className='btn-link'>회원가입</button>
                 </Link>
             </section>
@@ -27,7 +63,7 @@ class Auth extends Component {
                 <section className='description-box'>
                     <DescriptionBox contents={'비밀번호를 잊으셨나요?'} />
                 </section>
-                <Link to='/auth/findPassword'>
+                <Link to={{ pathname: '/auth/findPassword', search: `callback_url=${callbackUrl}` }}>
                     <button className='btn-link'>비밀번호 찾기</button>
                 </Link>
             </section>
@@ -41,7 +77,7 @@ class Auth extends Component {
         switch (kind) {
             case 'findPassword':
                 formEndIndex = 1;
-                formTitle = '비밀번호 찾기';
+                formTitle = '이메일로 비밀번호 찾기';
                 break;
             case 'login':
                 formEndIndex = 2;

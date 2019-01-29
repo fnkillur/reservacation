@@ -10,8 +10,8 @@ class Pagination extends Component {
     render() {
         const { perPageNo, totalPageCount, onClick } = this.props;
         let pageNo = parseInt(this.props.pageNo);
-        let classLeft = (pageNo === 0 && 'hide') || 'btn-left';
-        let classRight = (parseInt(totalPageCount) === pageNo && 'hide') || 'btn-right';
+        let classLeft = (pageNo === 1 && 'hide') || 'btn-left';
+        let classRight = ((!totalPageCount || parseInt(totalPageCount) === pageNo) && 'hide') || 'btn-right';
 
         return (
             <div className='pagination'>

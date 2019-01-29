@@ -9,6 +9,7 @@ import Modal from '../components/Modal';
 import StoreCard from '../organisms/StoreCard';
 import ReviewList from '../organisms/ReviewList';
 import * as storeService from '../_common/services/store.service';
+import * as userService from '../_common/services/user.service';
 
 
 class StoreDetail extends Component {
@@ -50,9 +51,22 @@ class StoreDetail extends Component {
                 <Image
                     src={img.src}
                     alt={this.state.store.store_name} />
-            </div>
+            </div>;
         });
     };
+
+    renderBtnReserveOrLogin = (id, query) => {
+        let isLogin = userService.identifyLogin();
+        if (isLogin) {
+            return <Link to={`/stores/${id}/reserve`}>
+                <button className='btn-reserve'>예약하기</button>
+            </Link>;
+        } else {
+            return <Link to={{ pathname: '/auth/login', search: `callback_url=/stores/${id}?reviewPageNo=${query.reviewPageNo}&perPageNo=${query.perPageNo}` }}>
+                <button className='btn-reserve'>로그인 후 예약하기</button>
+            </Link>;
+        }
+    }
 
     pushQueryString = (reviewPageNo, perPageNo) => {
         this.props.history.push({
@@ -63,22 +77,17 @@ class StoreDetail extends Component {
     render() {
         let id = this.props.match.params.id;
         let query = queryString.parse(this.props.location.search);
-        let token = false; // Test 용 토큰
-        let toReserve = <Link to={`/stores/${id}/${token}`}><button className='btn-reserve'>예약하기</button></Link>;
-        let imageTitle = (this.state.images && `${this.state.store.store_name}의 분위기 넘치는 사진들`) || '';
 
         return (
             <Modal to={'/stores'}>
                 <article className='store-detail'>
-                    <Link to={{ pathname: '/auth/login', search: `callback_url=/stores/${id}?reviewPageNo=${query.reviewPageNo}&perPageNo=${query.perPageNo}` }}>
-                        <button className='btn-reserve'>로그인 후 예약하기</button>
-                    </Link>
+                    {this.renderBtnReserveOrLogin(id, query)}
                     <SectionDivider />
                     <section className='store-info'>
                         {this.state.store && this.renderStoreCard()}
                     </section>
                     <SectionDivider />
-                    <TitleBox contents={imageTitle} />
+                    <TitleBox contents={(this.state.images && `${this.state.store.store_name}의 분위기 넘치는 사진들`) || ''} />
                     <section className='img-list'>
                         {this.state.images && this.renderImages()}
                     </section>

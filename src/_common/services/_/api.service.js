@@ -20,3 +20,15 @@ export function putAction(url, config) {
 export function deleteAction(url, config) {
     return axios.delete(convertUrl(url), config);
 }
+
+export function setMe(me) {
+    sessionStorage.setItem('me', JSON.stringify(me));
+}
+
+export function getMe() {
+    return JSON.parse(sessionStorage.getItem('me'));
+}
+
+export function removeMe() {
+    sessionStorage.removeItem('me');
+}

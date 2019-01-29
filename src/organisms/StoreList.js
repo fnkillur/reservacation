@@ -26,7 +26,7 @@ class StoreList extends Component {
             return <article
                 className='store'
                 key={store.id}>
-                <Link to={`stores/${store.id}?reviewPageNo=0&perPageNo=5`}
+                <Link to={`stores/${store.id}?reviewPageNo=1&perPageNo=5`}
                     style={{ textDecoration: 'none' }}>
                     <StoreCard
                         imgSrc={store.img_src}
