@@ -14,10 +14,6 @@ class ReviewList extends Component {
         this.fetchStoreReviews(this.props.reviewPageNo, this.props.perPageNo);
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return nextState.reviews.totalPageCount > 0;
-    }
-
     fetchStoreReviews = async (reviewPageNo, perPageNo) => {
         let res = await reviewService.getReviewsByStoreId(this.props.id, reviewPageNo - 1, perPageNo);
 
@@ -29,16 +25,16 @@ class ReviewList extends Component {
     }
 
     renderReviews = () => {
-        return this.state.reviews.data.map(review => {
-            return <div className='review' key={review.id}>
-                <ReviewCard
-                    imgSrc={review.img_src}
-                    imgAlt={review.title}
-                    title={review.title}
-                    description={review.description}
-                />
-            </div>
-        });
+        return (this.state.reviews.totalPageCount
+            && this.state.reviews.data.map(review => {
+                return <div className='review' key={review.id}>
+                    <ReviewCard
+                        imgSrc={review.img_src}
+                        imgAlt={review.title}
+                        description={review.description}
+                    />
+                </div>
+            })) || <div>등록된 리뷰가 없습니다. 리뷰를 남겨주세요!</div>;
     };
 
     render() {
