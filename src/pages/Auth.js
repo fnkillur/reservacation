@@ -43,6 +43,9 @@ class Auth extends Component {
                         alert(error.response.data.message);
                     });
                 break;
+            default:
+                console.log('url 오류');
+                break;
         }
     };
 
@@ -86,6 +89,9 @@ class Auth extends Component {
             case 'register':
                 formEndIndex = 5;
                 formTitle = '회원가입'
+                break;
+            default:
+                console.log('url 오류');
                 break;
         }
 
