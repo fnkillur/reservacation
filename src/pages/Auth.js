@@ -36,7 +36,7 @@ class Auth extends Component {
                 userService.register(formData)
                     .then(res => {
                         alert(res.data.message);
-                        let toUrl = (callbackUrl && `auth/login?callback_url=/${callbackUrl}`) || '/auth/login';
+                        let toUrl = (callbackUrl && `/auth/login?callback_url=${callbackUrl}`) || '/auth/login';
                         window.location.href = toUrl;
                     })
                     .catch(error => {

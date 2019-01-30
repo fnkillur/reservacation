@@ -26,7 +26,6 @@ const Input = (props) => {
 
 Input.propTypes = {
     placeholder: PropTypes.string,
-    value: PropTypes.string,
     onChange: PropTypes.func,
     type: PropTypes.string,
     name: PropTypes.string

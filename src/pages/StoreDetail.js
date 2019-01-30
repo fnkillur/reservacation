@@ -7,16 +7,19 @@ import TitleBox from '../components/TitleBox';
 import SectionDivider from '../components/SectionDivider';
 import Modal from '../components/Modal';
 import StoreCard from '../organisms/StoreCard';
+import ReviewForm from '../organisms/ReviewForm';
 import ReviewList from '../organisms/ReviewList';
 import * as storeService from '../_common/services/store.service';
 import * as userService from '../_common/services/user.service';
+import * as reviewService from '../_common/services/review.service';
 
 
 class StoreDetail extends Component {
 
     state = {
         store: '',
-        images: ''
+        images: '',
+        reviewFormClass: false
     }
 
     componentDidMount() {
@@ -55,33 +58,45 @@ class StoreDetail extends Component {
         });
     };
 
-    renderBtnReserveOrLogin = (id, query) => {
-        let isLogin = userService.identifyLogin();
-        if (isLogin) {
-            return <Link to={`/stores/${id}/reserve`}>
-                <button className='btn-reserve'>예약하기</button>
-            </Link>;
-        } else {
-            return <Link to={{ pathname: '/auth/login', search: `callback_url=/stores/${id}?reviewPageNo=${query.reviewPageNo}&perPageNo=${query.perPageNo}` }}>
-                <button className='btn-reserve'>로그인 후 예약하기</button>
-            </Link>;
-        }
-    }
-
     pushQueryString = (reviewPageNo, perPageNo) => {
         this.props.history.push({
             search: `?reviewPageNo=${reviewPageNo}&perPageNo=${perPageNo}`
         });
     };
 
+    toggleReviewForm = () => {
+        this.setState({
+            reviewFormClass: !this.state.reviewFormClass
+        })
+    };
+
+    handleCreate = (review) => {
+        reviewService.writeReview(review)
+            .then(res => {
+                alert(res.data.message);
+                this.toggleReviewForm();
+            }).catch(error => {
+                alert(error.response.data.message);
+            });
+    };
+
     render() {
         let id = this.props.match.params.id;
         let query = queryString.parse(this.props.location.search);
+        let token = userService.identifyLogin();
 
         return (
             <Modal to={'/stores'}>
                 <article className='store-detail'>
-                    {this.renderBtnReserveOrLogin(id, query)}
+                    {(token && <Link to={`/stores/${id}/reserve`}>
+                        <button className='btn-reserve'>예약하기</button>
+                    </Link>)
+                        || <Link to={{
+                            pathname: '/auth/login',
+                            search: `callback_url=/stores/${id}?reviewPageNo=${query.reviewPageNo}&perPageNo=${query.perPageNo}`
+                        }}>
+                            <button className='btn-reserve'>로그인 후 예약하기</button>
+                        </Link>}
                     <SectionDivider />
                     <section className='store-info'>
                         {this.state.store && this.renderStoreCard()}
@@ -92,19 +107,27 @@ class StoreDetail extends Component {
                         {this.state.images && this.renderImages()}
                     </section>
                     <SectionDivider />
-                    <button className='btn-review'>리뷰</button>
-                    <button className='btn-qna'>QnA</button>
-                    <section className='reviews'>
+                    <TitleBox contents={(this.state.images && `${this.state.store.store_name}의 생생한 리뷰들`) || ''} />
+                    <section className='store-reviews'>
                         <ReviewList
                             id={id}
                             reviewPageNo={query.reviewPageNo}
                             perPageNo={query.perPageNo}
                             pushQueryString={this.pushQueryString} />
                     </section>
+                    <SectionDivider />
+                    <section className='review-button'>
+                        {(token && <button className='btn-review' onClick={this.toggleReviewForm}>
+                            {(!this.state.reviewFormClass && '리뷰 작성하기') || '작성 취소'}
+                        </button>)}
+                    </section>
+                    <section className={(this.state.reviewFormClass && 'review-create') || 'review-hidden'}>
+                        <ReviewForm storeId={id} onCreate={this.handleCreate} />
+                    </section>
                 </article>
-            </Modal>
+            </Modal >
         );
     }
 }
 
-export default StoreDetail
+export default StoreDetail;
