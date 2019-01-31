@@ -105,7 +105,11 @@ class Auth extends Component {
         return (
             <article className='auth'>
                 <section className='title'>
-                    <img src='' alt='로고' style={{ width: '100px', height: '100px' }} />
+                    <section className='logo'>
+                        <Link to='/stores'>
+                            <img src='' alt='로고' />
+                        </Link>
+                    </section>
                     <TitleBox contents={`Reservacation ${formTitle}`} />
                 </section>
                 <AuthForm formEndIndex={formEndIndex} formTitle={formTitle} onCreate={this.handleCreate} />

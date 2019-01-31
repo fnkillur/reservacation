@@ -20,6 +20,7 @@ const Input = (props) => {
             onChange={props.onChange}
             type={props.type || 'text'}
             name={props.name}
+            required={props.required}
         />
     );
 };
@@ -28,7 +29,8 @@ Input.propTypes = {
     placeholder: PropTypes.string,
     onChange: PropTypes.func,
     type: PropTypes.string,
-    name: PropTypes.string
+    name: PropTypes.string,
+    required: PropTypes.bool
 };
 
 export default Input;

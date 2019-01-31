@@ -54,6 +54,10 @@ class AuthForm extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+        if (this.state.password !== this.state.rePassword) {
+            alert('패스워드를 확인해주세요.');
+            return;
+        }
         this.props.onCreate(this.state);
         this.setState({
             email: '',
@@ -77,7 +81,7 @@ class AuthForm extends Component {
                             placeholder={input.placeholder}
                             onChange={input.onChange}
                             type={input.type}
-                            required
+                            required={true}
                         />
                     </section>
                 })}
