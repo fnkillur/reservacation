@@ -32,3 +32,8 @@ export function getMe() {
 export function removeMe() {
     sessionStorage.removeItem('me');
 }
+
+export function setAuthorization() {
+    let me = this.getMe();
+    axios.defaults.headers.common['Authorization'] = `Bearer ${me.token}`;
+}

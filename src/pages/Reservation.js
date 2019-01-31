@@ -5,7 +5,6 @@ import Modal from '../components/Modal';
 import Input from '../components/Input';
 import DescriptionBox from '../components/DescriptionBox';
 import * as bookingService from '../_common/services/booking.service';
-import * as userService from '../_common/services/user.service';
 
 class Reservation extends Component {
 
@@ -17,36 +16,57 @@ class Reservation extends Component {
 
     componentDidMount() {
         this.fetchWaitingCount();
+        this.fetchMyReservation();
     }
 
     fetchWaitingCount = async () => {
-        let res = await bookingService.getWaitingCount(this.props.match.params.id);
-        this.setState({
-            waitingCount: res.data.waitingCount
-        });
+        try {
+            let res = await bookingService.getWaitingCount(this.props.match.params.id);
+            this.setState({
+                waitingCount: res.data.waitingCount
+            });
+        } catch (error) {
+            console.error(error);
+        }
     };
 
-    bookStore = () => {
+    fetchMyReservation = async () => {
+        try {
+            let res = await bookingService.getMyReservation(this.props.match.params.id);
+            this.setState({
+                status: res.data.status
+            })
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    bookStore = async () => {
         let form = {
             storeId: this.props.match.params.id,
             customerCount: this.state.myTeamCount
         };
-        bookingService.bookStore(form)
-            .then(res => {
-                alert(res.data.message);
-                console.log(res.data.booking.status);
-                this.setState({
-                    status: res.data.booking.status
-                })
-            }).catch(error => {
-                error.response.status === 406 && alert(error.response.data.message);
+        try {
+            let res = await bookingService.bookStore(form);
+            alert(res.data.message);
+            res.data.booking && this.setState({
+                status: res.data.booking.status
             });
+            this.fetchWaitingCount();
+        } catch (error) {
+            error.response.status === 406 && alert(error.response.data.message);
+        }
     };
 
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value,
         });
+    };
+
+    getCallbackUrl = () => {
+        let queryParams = this.props.location.search;
+        return queryParams && queryParams.replace(new RegExp('\\?.+url=', 'g'), '');
     };
 
     render() {
@@ -70,7 +90,7 @@ class Reservation extends Component {
         }
 
         return (
-            <Modal to={'/stores'}>
+            <Modal to={this.getCallbackUrl()}>
                 <article className='reservation'>
                     <button className='btn-request' onClick={this.bookStore}>에약 신청하기</button>
                     <section className='wait-people'>

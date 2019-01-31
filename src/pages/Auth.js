@@ -16,36 +16,43 @@ class Auth extends Component {
 
     handleCreate = (formData) => {
         let kind = this.props.match.path.split('/').pop();
-        let callbackUrl = this.getCallbackUrl();
+
         switch (kind) {
             case 'findPassword':
-                userService.findPassword(formData);
+                //TODO: 패스워드 찾기 로직
                 break;
             case 'login':
-                userService.login(formData)
-                    .then(res => {
-                        userService.setLogin(res.data);
-                        let toUrl = callbackUrl || '/stores';
-                        window.location.href = toUrl;
-                    })
-                    .catch(error => {
-                        alert(error.response.data.message);
-                    });
+                this.login(formData);
                 break;
             case 'register':
-                userService.register(formData)
-                    .then(res => {
-                        alert(res.data.message);
-                        let toUrl = (callbackUrl && `/auth/login?callback_url=${callbackUrl}`) || '/auth/login';
-                        window.location.href = toUrl;
-                    })
-                    .catch(error => {
-                        alert(error.response.data.message);
-                    });
+                this.register(formData);
                 break;
             default:
                 console.log('url 오류');
                 break;
+        }
+    };
+
+    login = async (formData) => {
+        try {
+            let res = await userService.login(formData);
+            userService.setLogin(res.data);
+            let toUrl = this.getCallbackUrl() || '/stores';
+            window.location.href = toUrl;
+        } catch (error) {
+            alert(error.response.data.message);
+        }
+    };
+
+    register = async (formData) => {
+        let callbackUrl = this.getCallbackUrl();
+        try {
+            let res = await userService.register(formData);
+            alert(res.data.message);
+            let toUrl = (callbackUrl && `/auth/login?callback_url=${callbackUrl}`) || '/auth/login';
+            window.location.href = toUrl;
+        } catch (error) {
+            alert(error.response.data.message);
         }
     };
 

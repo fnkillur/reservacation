@@ -28,12 +28,15 @@ class StoreDetail extends Component {
     }
 
     fetchStoreDetail = async (id) => {
-        let res = await storeService.getStoreById(id);
-
-        this.setState({
-            store: res.data.store,
-            images: res.data.images
-        });
+        try {
+            let res = await storeService.getStoreById(id);
+            this.setState({
+                store: res.data.store,
+                images: res.data.images
+            });
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     renderStoreCard = () => {
@@ -70,14 +73,14 @@ class StoreDetail extends Component {
         })
     };
 
-    handleCreate = (review) => {
-        reviewService.writeReview(review)
-            .then(res => {
-                alert(res.data.message);
-                this.toggleReviewForm();
-            }).catch(error => {
-                alert(error.response.data.message);
-            });
+    handleCreate = async (review) => {
+        try {
+            let res = await reviewService.writeReview(review);
+            alert(res.data.message);
+            this.toggleReviewForm();
+        } catch (error) {
+            alert(error.response.data.message);
+        }
     };
 
     render() {
@@ -88,7 +91,10 @@ class StoreDetail extends Component {
         return (
             <Modal to={'/stores'}>
                 <article className='store-detail'>
-                    {(token && <Link to={`/stores/${id}/reserve`}>
+                    {(token && <Link to={{
+                        pathname: `/stores/${id}/reserve`,
+                        search: `callback_url=/stores/${id}?reviewPageNo=${query.reviewPageNo}&perPageNo=${query.perPageNo}`
+                    }}>
                         <button className='btn-reserve'>예약하기</button>
                     </Link>)
                         || <Link to={{
