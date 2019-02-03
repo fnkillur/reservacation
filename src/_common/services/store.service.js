@@ -7,3 +7,7 @@ export function getStores() {
 export function getStoreById(id) {
     return apiService.getAction(`store/${id}`);
 }
+
+export function getAroundStores(position) {
+    return apiService.getAction(`stores/around?bot=${position.bot}&left=${position.left}&top=${position.top}&right=${position.right}`);
+}
