@@ -12,6 +12,10 @@
     .btn-left {
         font-size: 20px;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+        margin-left: -20px;
     }
 
     .children {
@@ -22,5 +26,7 @@
     .btn-right {
         font-size: 20px;
         cursor: pointer;
+        display: flex;
+        align-items: center;
     }
 }

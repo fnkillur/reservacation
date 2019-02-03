@@ -84,9 +84,12 @@ class Map extends Component {
 
 
     componentDidMount() {
+        console.log('지도 랜더링 완료')
         if (navigator.geolocation) {
+            console.log('geolocation 허용')
             navigator.geolocation.getCurrentPosition(this.showPosition);
         } else {
+            console.log('geolocation 허용하지 않음');
             alert('허용하지 않으면 이 서비스 사용에 제한됩니다.');
             this.showPosition({
                 coords: {

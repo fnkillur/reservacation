@@ -54,7 +54,7 @@ class AuthForm extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        if (this.state.password !== this.state.rePassword) {
+        if (this.state.rePassword && (this.state.password !== this.state.rePassword)) {
             alert('패스워드를 확인해주세요.');
             return;
         }
