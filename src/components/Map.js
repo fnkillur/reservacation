@@ -87,7 +87,7 @@ class Map extends Component {
     componentDidMount() {
         let geo_success = (position) => {
             this.showPosition(position);
-        }
+        };
         
         let geo_error = () => {
             alert('허용하지 않으면 이 서비스 사용에 제한됩니다.');
@@ -97,8 +97,8 @@ class Map extends Component {
                     longitude: 126.492780
                 }
             });
-        }
-          
+        };
+
         let geo_options = {
             enableHighAccuracy: true, 
             maximumAge        : 30000, 
@@ -112,7 +112,7 @@ class Map extends Component {
     render() {
         return (
             <div>
-                <div id="map" style={{ width: 100 + 'vw', height: 100 + 'vh' }} />
+                <div id="map" style={{height: window.innerHeight + 'px'}}/>
             </div>
         )
     };

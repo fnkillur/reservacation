@@ -11,7 +11,7 @@ class AuthForm extends Component {
         phone: '',
         name: '',
         role: 'user'
-    }
+    };
 
     getFormData = (formIndex) => {
         let formData = [{

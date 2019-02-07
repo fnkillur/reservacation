@@ -13,7 +13,7 @@ const TitleBox = (props) => {
     return (
         <span style={styles}>{props.contents}</span>
     );
-}
+};
 
 TitleBox.propTypes = {
     contents: PropTypes.string.isRequired,

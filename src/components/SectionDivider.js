@@ -9,7 +9,7 @@ const SectionDivider = () => {
     };
 
     return (
-        <div className='section-divider' style={style}></div>
+        <div className='section-divider' style={style}/>
     );
 };
 
