@@ -69,6 +69,7 @@ class Map extends Component {
     };
 
     showPosition = (position) => {
+        console.log(position);
         let latitude = position.coords.latitude;
         let longitude = position.coords.longitude;
         let mapContainer = document.getElementById('map'),
@@ -84,12 +85,11 @@ class Map extends Component {
 
 
     componentDidMount() {
-        console.log('지도 랜더링 완료')
-        if (navigator.geolocation) {
-            console.log('geolocation 허용')
-            navigator.geolocation.getCurrentPosition(this.showPosition);
-        } else {
-            console.log('geolocation 허용하지 않음');
+        let geo_success = (position) => {
+            this.showPosition(position);
+        }
+        
+        let geo_error = () => {
             alert('허용하지 않으면 이 서비스 사용에 제한됩니다.');
             this.showPosition({
                 coords: {
@@ -98,6 +98,14 @@ class Map extends Component {
                 }
             });
         }
+          
+        let geo_options = {
+            enableHighAccuracy: true, 
+            maximumAge        : 30000, 
+            timeout           : 20000
+        };
+
+        navigator.geolocation.watchPosition(geo_success, geo_error, geo_options);
     }
 
 
