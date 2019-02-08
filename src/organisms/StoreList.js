@@ -23,7 +23,7 @@ class StoreList extends Component {
     };
 
     renderStores = () => {
-        let perPageNo = (isMobile && 3) || 5;
+        let perPageNo = (isMobile && 2) || 5;
         return this.state.stores.map((store) => {
             return <article
                 className='store'

@@ -6,7 +6,7 @@ import './StoreCard.scss';
 import PropTypes from 'prop-types';
 
 const StoreCard = (props) => {
-    const { imgSrc, imgAlt, name, address, tel, description } = props;
+    const { imgSrc, imgAlt, name, address, tel, description, whiteSpace } = props;
     
     return (
         <article className='store-card'>
@@ -20,7 +20,7 @@ const StoreCard = (props) => {
                     <TitleBox contents={name} />
                 </section>
                 <section className='store-description'>
-                    <DescriptionBox contents={address} />
+                    <DescriptionBox contents={address} whiteSpace={whiteSpace} />
                     <DescriptionBox contents={tel} />
                     <DescriptionBox contents={description} />
                 </section>

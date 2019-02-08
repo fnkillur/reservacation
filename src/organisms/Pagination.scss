@@ -27,6 +27,9 @@
         text-align: center;
         display: flex;
         width: 100%;
+        @media screen and (max-width: 775px) {
+            justify-content: space-between;
+        }
     }
 
     .btn-right {
