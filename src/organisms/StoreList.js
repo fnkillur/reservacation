@@ -3,6 +3,7 @@ import './StoreList.scss';
 import { Link } from 'react-router-dom';
 import StoreCard from '../organisms/StoreCard';
 import * as storeService from '../_common/services/store.service';
+import { isMobile } from '../_common/const/const';
 
 class StoreList extends Component {
 
@@ -22,11 +23,12 @@ class StoreList extends Component {
     };
 
     renderStores = () => {
+        let perPageNo = (isMobile && 2) || 5;
         return this.state.stores.map((store) => {
             return <article
                 className='store'
                 key={store.id}>
-                <Link to={`stores/${store.id}?reviewPageNo=1&perPageNo=5`}>
+                <Link to={`stores/${store.id}?reviewPageNo=1&perPageNo=${perPageNo}`}>
                     <StoreCard
                         imgSrc={store.img_src}
                         imgAlt={store.store_name}

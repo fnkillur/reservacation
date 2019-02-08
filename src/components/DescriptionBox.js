@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { isMobile } from '../_common/const/const';
 
 const DescriptionBox = (props) => {
+    let width = (isMobile && '') || '100%';
     let styles = {
         margin: '0',
         padding: '0',
-        width: '100%',
+        width: width,
         height: '100%',
         textOverflow: 'ellipsis',
         overflow: 'hidden',
-        whiteSpace: 'nowrap',
+        whiteSpace: props.whiteSpace || 'nowrap',
     };
 
     return (
@@ -19,6 +21,7 @@ const DescriptionBox = (props) => {
 
 DescriptionBox.propTypes = {
     contents: PropTypes.string.isRequired,
+    whiteSpace: PropTypes.string
 };
 
 export default DescriptionBox;

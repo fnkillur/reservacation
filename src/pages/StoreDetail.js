@@ -48,6 +48,7 @@ class StoreDetail extends Component {
             address={store.address + store.detail_address}
             tel={store.store_tel}
             description={store.store_description}
+            whiteSpace='pre-wrap'
         />;
     };
 
