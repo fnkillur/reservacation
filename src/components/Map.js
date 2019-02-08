@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-constructor,no-loop-func */
 /*global daum*/
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './Map.scss';
 import * as storeService from '../_common/services/store.service';
 
@@ -33,7 +33,7 @@ class Map extends Component {
             left: swLatLng.getLng(),
             top: neLatLng.getLat(),
             right: neLatLng.getLng()
-        }
+        };
 
         this.fetchAroundStores(position);
     };
@@ -69,18 +69,19 @@ class Map extends Component {
     };
 
     showPosition = (position) => {
-        console.log(position);
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
-        let mapContainer = document.getElementById('map'),
-            mapOption = {
-                center: new daum.maps.LatLng(latitude, longitude),
-                level: 3
-            };
+        if (("daum" in window)) {
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+            let mapContainer = document.getElementById('map'),
+                mapOption = {
+                    center: new daum.maps.LatLng(latitude, longitude),
+                    level: 3
+                };
 
-        map = new daum.maps.Map(mapContainer, mapOption);
+            map = new daum.maps.Map(mapContainer, mapOption);
 
-        this.addEventListener();
+            this.addEventListener();
+        }
     };
 
 
@@ -88,7 +89,7 @@ class Map extends Component {
         let geo_success = (position) => {
             this.showPosition(position);
         };
-        
+
         let geo_error = () => {
             alert('허용하지 않으면 이 서비스 사용에 제한됩니다.');
             this.showPosition({
@@ -100,9 +101,9 @@ class Map extends Component {
         };
 
         let geo_options = {
-            enableHighAccuracy: true, 
-            maximumAge        : 30000, 
-            timeout           : 20000
+            enableHighAccuracy: true,
+            maximumAge: 30000,
+            timeout: 20000
         };
 
         navigator.geolocation.watchPosition(geo_success, geo_error, geo_options);
