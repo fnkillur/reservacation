@@ -10,23 +10,36 @@
     }
 
     .btn-left {
+        position: absolute;
+        left: 10px;
         font-size: 20px;
         cursor: pointer;
+        height: 110px;
         display: flex;
         align-items: center;
-        margin-right: 10px;
-        margin-left: -20px;
+        @media screen and (max-width: 775px) {
+            font-size: 15px;
+            left: 5px;
+        }
     }
 
     .children {
         text-align: center;
         display: flex;
+        width: 100%;
     }
 
     .btn-right {
+        position: absolute;
+        right: 10px;
         font-size: 20px;
         cursor: pointer;
+        height: 110px;
         display: flex;
         align-items: center;
+        @media screen and (max-width: 775px) {
+            font-size: 15px;
+            right: 5px;
+        }
     }
 }

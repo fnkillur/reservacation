@@ -3,6 +3,9 @@
     height: 100%;
     margin: 0;
     padding: 0;
+    @media screen and (max-width: 775px) {
+        display: flex;    
+    }
 
     a {
         text-decoration: none;
