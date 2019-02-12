@@ -91,7 +91,7 @@ class Map extends Component {
         };
 
         let geo_error = () => {
-            alert('허용하지 않으면 이 서비스 사용에 제한됩니다.');
+            // alert('허용하지 않으면 이 서비스 사용에 제한됩니다.');
             this.showPosition({
                 coords: {
                     latitude: 33.506525,
