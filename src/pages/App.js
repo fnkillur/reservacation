@@ -19,7 +19,7 @@ class App extends Component {
             let res = await storeService.getAroundStores(position);
             this.setState({
                 stores: res.data
-            })
+            });
         } catch (error) {
             console.error(error);
         }
