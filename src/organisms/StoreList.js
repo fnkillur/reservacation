@@ -2,29 +2,13 @@ import React, { Component } from 'react';
 import './StoreList.scss';
 import { Link } from 'react-router-dom';
 import StoreCard from '../organisms/StoreCard';
-import * as storeService from '../_common/services/store.service';
 import { isMobile } from '../_common/const/const';
 
 class StoreList extends Component {
 
-    state = {
-        stores: ''
-    }
-
-    componentDidMount() {
-        this.fetchStores();
-    }
-
-    fetchStores = async () => {
-        let res = await storeService.getStores();
-        this.setState({
-            stores: res.data
-        });
-    };
-
     renderStores = () => {
         let perPageNo = (isMobile && 2) || 5;
-        return this.state.stores.map((store) => {
+        return this.props.stores.map((store) => {
             return <article
                 className='store'
                 key={store.id}>
@@ -43,8 +27,8 @@ class StoreList extends Component {
 
     render() {
         return (
-            <div className='store-list'>
-                {this.state.stores && this.renderStores()}
+            <div className={(this.props.stores.length && 'store-list') || 'none'}>
+                {this.props.stores && this.renderStores()}
             </div>
         );
     }

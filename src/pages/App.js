@@ -6,16 +6,37 @@ import Map from '../components/Map';
 import Reservation from './Reservation';
 import StoreDetail from './StoreDetail';
 import { isMobile } from '../_common/const/const';
+import * as storeService from '../_common/services/store.service';
 
 class App extends Component {
+
+    state = {
+        stores: []
+    };
+
+    handleSearch = async (position) => {
+        try {
+            let res = await storeService.getAroundStores(position);
+            this.setState({
+                stores: res.data
+            })
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     render() {
         return (
             <div className='main'>
-                {isMobile || <section className='stores'><StoreList /></section>}
+                {
+                    isMobile || <section className='stores'><StoreList stores={this.state.stores} /></section>
+                }
                 <section className='map'>
-                    <Map />
+                    <Map stores={this.state.stores} handleSearch={this.handleSearch} />
                 </section>
-                {!isMobile || <section className='stores'><StoreList /></section>}
+                {
+                    !isMobile || <section className='stores'><StoreList stores={this.state.stores} /></section>
+                }
                 <Switch>
                     <Route path={'/stores/:id/reserve'} component={Reservation} />
                     <Route path={'/stores/:id'} component={StoreDetail} />

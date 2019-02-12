@@ -1,27 +1,36 @@
 /* eslint-disable no-useless-constructor,no-loop-func */
 /*global daum*/
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './Map.scss';
-import * as storeService from '../_common/services/store.service';
 
 let map;
 
 class Map extends Component {
 
+    state = {
+        isSearch: false
+    };
+
     addEventListener = () => {
         // 중심 위치 변경 이벤트
         daum.maps.event.addListener(map, 'center_changed', () => {
-            this.changeHandler();
+            this.handleMove();
         });
 
         // 확대 축소 이벤트
         daum.maps.event.addListener(map, 'zoom_changed', () => {
-            this.changeHandler();
+            this.handleMove();
         });
     };
 
-    changeHandler = () => {
+    handleMove = () => {
+        this.state.isSearch && this.setState({
+            isSearch: !this.state.isSearch
+        });
+    };
+
+    searchStores = () => {
         let bounds = map.getBounds();
         // 현재 지도의 남서쪽 좌표
         let swLatLng = bounds.getSouthWest();
@@ -35,20 +44,15 @@ class Map extends Component {
             right: neLatLng.getLng()
         };
 
-        this.fetchAroundStores(position);
+        this.props.handleSearch(position);
+        this.setState({
+            isSearch: !this.state.isSearch
+        });
+        this.renderMarket();
     };
 
-    fetchAroundStores = async (position) => {
-        try {
-            let res = await storeService.getAroundStores(position);
-            this.renderMarket(res.data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    renderMarket = (stores) => {
-        stores.forEach(store => {
+    renderMarket = () => {
+        this.props.stores.forEach(store => {
             let marker = new daum.maps.Marker({
                 map: map,
                 position: new daum.maps.LatLng(store.latitude, store.longitude)
@@ -113,7 +117,12 @@ class Map extends Component {
     render() {
         return (
             <div>
-                <div id="map" style={{height: window.innerHeight + 'px'}}/>
+                {
+                    !this.state.isSearch && <div className='research-box'>
+                        <button type='button' className='btn-research' onClick={this.searchStores}>이 위치에서 가게 재검색</button>
+                    </div>
+                }
+                <div id="map" style={{ height: window.innerHeight + 'px' }} />
             </div>
         )
     };
