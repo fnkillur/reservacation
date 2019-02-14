@@ -12,6 +12,12 @@ class ReviewForm extends Component {
         storeId: this.props.storeId
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return (nextState.file !== this.state.file)
+            || (nextState.imgSrc !== this.state.imgSrc)
+            || (nextState.description !== this.state.description);
+    }
+
     handleUpload = e => {
         e.preventDefault();
         let reader = new FileReader();

@@ -8,6 +8,10 @@ class ReviewList extends Component {
 
     state = {
         reviews: ''
+    };
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextState.reviews !== this.state.reviews;
     }
 
     componentDidMount() {

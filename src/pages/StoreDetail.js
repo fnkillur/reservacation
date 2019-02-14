@@ -22,6 +22,12 @@ class StoreDetail extends Component {
         reviewFormClass: false
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return (nextState.store !== this.state.store)
+            || (nextState.images !== this.state.images)
+            || (nextState.reviewFormClass !== this.state.reviewFormClass);
+    }
+
     componentDidMount() {
         let id = this.props.match.params.id;
         id && this.fetchStoreDetail(id);
