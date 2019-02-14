@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-constructor,no-loop-func */
 /*global daum*/
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import './Map.scss';
 
 let map;
@@ -9,50 +9,18 @@ let map;
 class Map extends Component {
 
     state = {
-        isSearch: false
+        isSearch: false,
+        markers: []
     };
 
-    addEventListener = () => {
-        // 중심 위치 변경 이벤트
-        daum.maps.event.addListener(map, 'center_changed', () => {
-            this.handleMove();
+    static getDerivedStateFromProps(nextProps, prevState) {
+        prevState.markers.forEach(marker => {
+            marker.pin.setMap(null);
+            marker.overlay.setMap(null);
         });
 
-        // 확대 축소 이벤트
-        daum.maps.event.addListener(map, 'zoom_changed', () => {
-            this.handleMove();
-        });
-    };
-
-    handleMove = () => {
-        this.state.isSearch && this.setState({
-            isSearch: !this.state.isSearch
-        });
-    };
-
-    searchStores = () => {
-        let bounds = map.getBounds();
-        // 현재 지도의 남서쪽 좌표
-        let swLatLng = bounds.getSouthWest();
-        // 현재 지도의 북동쪽 좌표
-        let neLatLng = bounds.getNorthEast();
-
-        let position = {
-            bot: swLatLng.getLat(),
-            left: swLatLng.getLng(),
-            top: neLatLng.getLat(),
-            right: neLatLng.getLng()
-        };
-
-        this.props.handleSearch(position);
-        this.setState({
-            isSearch: !this.state.isSearch
-        });
-        this.renderMarket();
-    };
-
-    renderMarket = () => {
-        this.props.stores.forEach(store => {
+        let markers = [];
+        nextProps.stores.forEach(store => {
             let marker = new daum.maps.Marker({
                 map: map,
                 position: new daum.maps.LatLng(store.latitude, store.longitude)
@@ -69,25 +37,12 @@ class Map extends Component {
                     overlay.setMap(map);
                 });
             })(marker, overlay);
+
+            markers.push({ pin: marker, overlay });
         });
-    };
 
-    showPosition = (position) => {
-        if (("daum" in window)) {
-            let latitude = position.coords.latitude;
-            let longitude = position.coords.longitude;
-            let mapContainer = document.getElementById('map'),
-                mapOption = {
-                    center: new daum.maps.LatLng(latitude, longitude),
-                    level: 3
-                };
-
-            map = new daum.maps.Map(mapContainer, mapOption);
-
-            this.addEventListener();
-        }
-    };
-
+        return { markers };
+    }
 
     componentDidMount() {
         let geo_success = (position) => {
@@ -111,19 +66,79 @@ class Map extends Component {
         };
 
         navigator.geolocation.watchPosition(geo_success, geo_error, geo_options);
+
+        map && this.searchStores();
     }
 
+    showPosition = (position) => {
+        if (("daum" in window)) {
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+            let mapContainer = document.getElementById('map'),
+                mapOption = {
+                    center: new daum.maps.LatLng(latitude, longitude),
+                    level: 3
+                };
+
+            map = new daum.maps.Map(mapContainer, mapOption);
+
+            this.addEventListener();
+        }
+    };
+
+    addEventListener = () => {
+        // 중심 위치 변경 이벤트
+        daum.maps.event.addListener(map, 'center_changed', () => {
+            this.handleShow();
+        });
+
+        // 확대 축소 이벤트
+        daum.maps.event.addListener(map, 'zoom_changed', () => {
+            this.handleShow();
+        });
+    };
+
+    handleShow = () => {
+        this.state.isSearch && this.setState({
+            isSearch: !this.state.isSearch
+        })
+    };
+
+    searchStores = () => {
+        if (!map) {
+            alert('지도가 보여지는 중입니다. 잠시 뒤에 다시 클릭해주시기 바랍니다.');
+            return;
+        }
+
+        let bounds = map.getBounds();
+        // 현재 지도의 남서쪽 좌표
+        let swLatLng = bounds.getSouthWest();
+        // 현재 지도의 북동쪽 좌표
+        let neLatLng = bounds.getNorthEast();
+
+        let position = {
+            bot: swLatLng.getLat(),
+            left: swLatLng.getLng(),
+            top: neLatLng.getLat(),
+            right: neLatLng.getLng()
+        };
+
+        this.props.handleSearch(position);
+        this.setState({
+            isSearch: !this.state.isState
+        });
+    };
 
     render() {
         return (
-            <div>
+            <Fragment>
                 {
                     !this.state.isSearch && <div className='research-box'>
                         <button type='button' className='btn-research' onClick={this.searchStores}>이 위치에서 가게 재검색</button>
                     </div>
                 }
                 <div id="map" style={{ height: window.innerHeight + 'px' }} />
-            </div>
+            </Fragment>
         )
     };
 }

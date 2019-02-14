@@ -32,7 +32,8 @@ class App extends Component {
                     isMobile || <section className='stores'><StoreList stores={this.state.stores} /></section>
                 }
                 <section className='map'>
-                    <Map stores={this.state.stores} handleSearch={this.handleSearch} />
+                    <Map stores={this.state.stores}
+                        handleSearch={this.handleSearch} />
                 </section>
                 {
                     !isMobile || <section className='stores'><StoreList stores={this.state.stores} /></section>
