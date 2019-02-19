@@ -7,7 +7,9 @@ import * as reviewService from '../_common/services/review.service';
 class ReviewList extends Component {
 
     state = {
-        reviews: ''
+        reviews: '',
+        reviewPageNo: this.props.reviewPageNo,
+        perPageNo: this.props.perPageNo
     };
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -23,10 +25,12 @@ class ReviewList extends Component {
 
         this.setState({
             reviews: res.data,
+            reviewPageNo,
+            perPageNo
         });
-
+        
         this.props.pushQueryString(reviewPageNo, perPageNo);
-    }
+    };
 
     renderReviews = () => {
         return (this.state.reviews.totalPageCount
@@ -45,8 +49,8 @@ class ReviewList extends Component {
         return (
             <div className='review-list'>
                 <Pagination
-                    pageNo={this.props.reviewPageNo}
-                    perPageNo={this.props.perPageNo}
+                    reviewPageNo={this.state.reviewPageNo}
+                    perPageNo={this.state.perPageNo}
                     totalPageCount={this.state.reviews.totalPageCount}
                     onClick={this.fetchStoreReviews}>
                     {this.state.reviews && this.renderReviews()}

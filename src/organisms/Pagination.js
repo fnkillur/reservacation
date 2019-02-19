@@ -9,7 +9,7 @@ fontawesome.library.add(faAngleRight);
 class Pagination extends Component {
     render() {
         const { perPageNo, totalPageCount, onClick } = this.props;
-        let pageNo = parseInt(this.props.pageNo);
+        let pageNo = parseInt(this.props.reviewPageNo);
         let classLeft = (pageNo === 1 && 'hide') || 'btn-left';
         let classRight = ((!totalPageCount || parseInt(totalPageCount) === pageNo) && 'hide') || 'btn-right';
 
