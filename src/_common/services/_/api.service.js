@@ -9,12 +9,12 @@ export function getAction(url, config) {
     return axios.get(convertUrl(url), config);
 }
 
-export function postAction(url, config) {
-    return axios.post(convertUrl(url), config);
+export function postAction(url, formData, config) {
+    return axios.post(convertUrl(url), formData, config);
 }
 
-export function putAction(url, config) {
-    return axios.put(convertUrl(url), config);
+export function putAction(url, formData, config) {
+    return axios.put(convertUrl(url), formData, config);
 }
 
 export function deleteAction(url, config) {

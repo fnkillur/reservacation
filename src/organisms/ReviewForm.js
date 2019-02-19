@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import './ReviewForm.scss';
-import Image from '../components/Image';
 import ImageUpload from '../components/ImageUpload';
 
 class ReviewForm extends Component {
 
     state = {
-        file: '',
-        imgSrc: '',
+        reviewImg: '',
         description: '',
         storeId: this.props.storeId
     }
@@ -19,17 +17,9 @@ class ReviewForm extends Component {
     }
 
     handleUpload = e => {
-        e.preventDefault();
-        let reader = new FileReader();
-        let file = e.target.files[0];
-
-        reader.onloadend = () => {
-            this.setState({
-                file: file,
-                imgSrc: reader.result
-            });
-        }
-        reader.readAsDataURL(file)
+        this.setState({
+            [e.target.name]: e.target.files[0]
+        });
     };
 
     handleChange = e => {
@@ -40,10 +30,15 @@ class ReviewForm extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        this.props.onCreate(this.state);
+        console.log(this.state.reviewImg);
+        let formData = new FormData();
+        formData.append('reviewImg', this.state.reviewImg);
+        formData.append('description', this.state.description);
+        formData.append('storeId', this.props.storeId);
+
+        this.props.onCreate(formData);
         this.setState({
-            file: '',
-            imgSrc: '',
+            reviewImg: '',
             description: '',
             storeId: this.props.storeId
         })
@@ -53,18 +48,18 @@ class ReviewForm extends Component {
         return (
             <form className='review-form' onSubmit={this.handleSubmit}>
                 <section className='upload-input'>
-                    <section className='image'>
-                        <section className='thumbnail'>
-                            <Image src={this.state.imgSrc} />
-                        </section>
-                        <section className='image-upload'>
-                            <ImageUpload
-                                name='imgSrc'
-                                onChange={this.handleUpload}
-                            />
-                        </section>
+                    <textarea
+                        className='contents'
+                        name='description'
+                        cols='30'
+                        onChange={this.handleChange}
+                        placeholder='어떠한 점이 좋았나요?' />
+                    <section className='image-upload'>
+                        <ImageUpload
+                            name='reviewImg'
+                            onChange={this.handleUpload}
+                        />
                     </section>
-                    <textarea className='contents' name='description' onChange={this.handleChange}></textarea>
                 </section>
                 <section className='upload-button'>
                     <button className='btn-upload' type='submit'>리뷰 등록하기</button>

@@ -84,9 +84,9 @@ class StoreDetail extends Component {
         try {
             let res = await reviewService.writeReview(review);
             alert(res.data.message);
-            this.toggleReviewForm();
+            window.location.reload();
         } catch (error) {
-            alert(error.response.data.message);
+            error.response.data && alert(error.response.data.message);
         }
     };
 

@@ -5,5 +5,5 @@ export function getReviewsByStoreId(storeId, pageNo, perPageNo) {
 }
 
 export function writeReview(form) {
-    return apiService.postAction('reviews', form);
+    return apiService.postAction('reviews', form, { headers: { 'content-type': 'multipart/form-data' } });
 }
