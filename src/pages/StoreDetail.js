@@ -96,7 +96,7 @@ class StoreDetail extends Component {
         let token = userService.identifyLogin();
 
         return (
-            <Modal to={'/stores'}>
+            <Modal to={'/stores'} hasBtnBack={false}>
                 <article className='store-detail'>
                     {(token && <Link to={{
                         pathname: `/stores/${id}/reserve`,

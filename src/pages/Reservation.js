@@ -90,7 +90,7 @@ class Reservation extends Component {
         }
 
         return (
-            <Modal to={this.getCallbackUrl()}>
+            <Modal to={this.getCallbackUrl()} hasBtnBack={true}>
                 <article className='reservation'>
                     <button className='btn-request' onClick={this.bookStore}>에약 신청하기</button>
                     <section className='wait-people'>
