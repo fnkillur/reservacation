@@ -36,20 +36,29 @@
     .buttons {
         margin: -15px 0 10px 0;
         display: flex;
-        justify-content: space-between;
+        height: 24px;
 
         .btn-back {
+            position: absolute;
+            left: 30px;
             width: 12px;
             height: 24px;
         }
 
         .btn-none {
-            width: 0px;
+            display: none;
         }
 
         .btn-close {
+            position: absolute;
+            right: 30px;
             width: 12px;
             height: 24px;
+        }
+
+        a {
+            text-decoration: none;
+            vertical-align: middle;
         }
 
         @media screen and (max-width: 775px) {

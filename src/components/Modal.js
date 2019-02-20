@@ -18,12 +18,12 @@ class Modal extends Component {
                 <div className='modal'>
                     <section className='buttons'>
                         <div className={(hasBtnBack && 'btn-back') || 'btn-none'}>
-                            <Link to={to} style={{ textDecoration: 'none', verticalAlign: 'middle' }}>
+                            <Link to={to}>
                                 <FontAwesomeIcon icon={faAngleLeft} style={{ width: '100%', height: '100%' }} />
                             </Link>
                         </div>
                         <div className='btn-close'>
-                            <Link to='/stores' style={{ textDecoration: 'none', verticalAlign: 'middle' }}>
+                            <Link to='/stores'>
                                 <FontAwesomeIcon onClick={onClose} icon={faTimes} style={{ width: '100%', height: '100%' }} />
                             </Link>
                         </div>
