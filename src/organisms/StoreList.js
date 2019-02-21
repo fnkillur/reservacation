@@ -8,11 +8,11 @@ class StoreList extends Component {
 
     renderStores = () => {
         let perPageNo = (isMobile && 2) || 5;
-        return this.props.stores.map((store) => {
+        return this.props.stores.map(store => {
             return <article
                 className='store'
                 key={store.id}>
-                <Link to={`stores/${store.id}?reviewPageNo=1&perPageNo=${perPageNo}`}>
+                <Link to={`/stores/${store.id}?reviewPageNo=1&perPageNo=${perPageNo}`}>
                     <StoreCard
                         imgSrc={store.img_src}
                         imgAlt={store.store_name}

@@ -11,20 +11,20 @@ fontawesome.library.add(faAngleLeft);
 
 class Modal extends Component {
     render() {
-        const { to, hasBtnBack, children, onClose } = this.props;
+        const { to, hasBtnBack, children } = this.props;
 
         return (
             <div className='backdrop'>
                 <div className='modal'>
                     <section className='buttons'>
                         <div className={(hasBtnBack && 'btn-back') || 'btn-none'}>
-                            <Link to={to}>
+                            <Link to={to || '/stores'}>
                                 <FontAwesomeIcon icon={faAngleLeft} style={{ width: '100%', height: '100%' }} />
                             </Link>
                         </div>
                         <div className='btn-close'>
                             <Link to='/stores'>
-                                <FontAwesomeIcon onClick={onClose} icon={faTimes} style={{ width: '100%', height: '100%' }} />
+                                <FontAwesomeIcon icon={faTimes} style={{ width: '100%', height: '100%' }} />
                             </Link>
                         </div>
                     </section>
@@ -36,8 +36,9 @@ class Modal extends Component {
 }
 
 Modal.propTypes = {
-    to: PropTypes.string.isRequired,
-    children: PropTypes.node,
+    to: PropTypes.string,
+    hasBtnBack: PropTypes.bool.isRequired,
+    children: PropTypes.node
 };
 
 export default Modal;

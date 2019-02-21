@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './ReviewList.scss';
+import { Link } from 'react-router-dom';
 import ReviewCard from '../organisms/ReviewCard';
 import Pagination from './Pagination';
 import * as reviewService from '../_common/services/review.service';
@@ -28,20 +29,25 @@ class ReviewList extends Component {
             reviewPageNo,
             perPageNo
         });
-        
+
         this.props.pushQueryString(reviewPageNo, perPageNo);
     };
 
     renderReviews = () => {
         return (this.state.reviews.totalPageCount
             && this.state.reviews.data.map(review => {
-                return <div className='review' key={review.id}>
-                    <ReviewCard
-                        imgSrc={review.img_src}
-                        imgAlt={review.title}
-                        description={review.description}
-                    />
-                </div>
+                return <article className='review' key={review.id}>
+                    <Link to={{
+                        pathname: `/stores/${this.props.id}/reviews/${review.id}`,
+                        search: this.props.callbackUrl
+                    }}>
+                        <ReviewCard
+                            imgSrc={review.img_src}
+                            imgAlt={review.title}
+                            description={review.description}
+                        />
+                    </Link>
+                </article>
             })) || <div>등록된 리뷰가 없습니다. 리뷰를 남겨주세요!</div>;
     };
 

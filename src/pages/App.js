@@ -3,6 +3,7 @@ import './App.scss';
 import { Route, Switch } from 'react-router-dom';
 import StoreList from '../organisms/StoreList';
 import Map from '../components/Map';
+import ReviewDetail from './ReviewDetail';
 import Reservation from './Reservation';
 import StoreDetail from './StoreDetail';
 import { isMobile } from '../_common/const/const';
@@ -39,6 +40,7 @@ class App extends Component {
                     !isMobile || <section className='stores'><StoreList stores={this.state.stores} /></section>
                 }
                 <Switch>
+                    <Route path={'/stores/:id/reviews/:reviewId'} component={ReviewDetail} />
                     <Route path={'/stores/:id/reserve'} component={Reservation} />
                     <Route path={'/stores/:id'} component={StoreDetail} />
                 </Switch>

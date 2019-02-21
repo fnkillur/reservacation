@@ -94,19 +94,20 @@ class StoreDetail extends Component {
         let id = this.props.match.params.id;
         let query = queryString.parse(this.props.location.search);
         let token = userService.identifyLogin();
+        let callbackUrl = `callback_url=/stores/${id}?reviewPageNo=${query.reviewPageNo}&perPageNo=${query.perPageNo}`;
 
         return (
-            <Modal to={'/stores'} hasBtnBack={false}>
+            <Modal hasBtnBack={false}>
                 <article className='store-detail'>
                     {(token && <Link to={{
                         pathname: `/stores/${id}/reserve`,
-                        search: `callback_url=/stores/${id}?reviewPageNo=${query.reviewPageNo}&perPageNo=${query.perPageNo}`
+                        search: callbackUrl
                     }}>
                         <button className='btn-reserve'>예약하기</button>
                     </Link>)
                         || <Link to={{
                             pathname: '/auth/login',
-                            search: `callback_url=/stores/${id}?reviewPageNo=${query.reviewPageNo}&perPageNo=${query.perPageNo}`
+                            search: callbackUrl
                         }}>
                             <button className='btn-reserve'>로그인 후 예약하기</button>
                         </Link>}
@@ -126,7 +127,8 @@ class StoreDetail extends Component {
                             id={id}
                             reviewPageNo={query.reviewPageNo}
                             perPageNo={query.perPageNo}
-                            pushQueryString={this.pushQueryString} />
+                            pushQueryString={this.pushQueryString}
+                            callbackUrl={callbackUrl} />
                     </section>
                     <SectionDivider />
                     <section className='review-button'>

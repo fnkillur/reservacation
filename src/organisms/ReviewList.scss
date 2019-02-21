@@ -6,7 +6,6 @@
     
     .review {
         width: 90px;
-        cursor: pointer;
         margin-right: 10px;
         &:last-child {
             margin-right: 0 !important;
@@ -22,6 +21,11 @@
             @media screen and (max-width: 775px) {
                 width: 100%;
             }
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
         }
     }
 }
