@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-constructor,no-loop-func */
 /*global daum*/
 
-import React, { Component, Fragment } from 'react';
+import React, {Component, Fragment} from 'react';
 import './Map.scss';
 
 let map;
@@ -38,10 +38,10 @@ class Map extends Component {
                 });
             })(marker, overlay);
 
-            markers.push({ pin: marker, overlay });
+            markers.push({pin: marker, overlay});
         });
 
-        return { markers };
+        return {markers};
     }
 
     componentDidMount() {
@@ -51,29 +51,29 @@ class Map extends Component {
 
         let geo_error = () => {
             // alert('허용하지 않으면 이 서비스 사용에 제한됩니다.');
+            // 기본값은 제주 시청
             this.showPosition({
                 coords: {
-                    latitude: 33.506525,
-                    longitude: 126.492780
+                    latitude: 33.500361,
+                    longitude: 126.531139
                 }
             });
         };
 
         let geo_options = {
-            enableHighAccuracy: true,
+            enableHighAccuracy: false,
             maximumAge: 30000,
             timeout: 20000
         };
 
         navigator.geolocation.watchPosition(geo_success, geo_error, geo_options);
-
-        map && this.searchStores();
     }
 
-    showPosition = (position) => {
+    showPosition = position => {
+
         if (("daum" in window)) {
-            let latitude = position.coords.latitude;
-            let longitude = position.coords.longitude;
+            let longitude = (position.coords.longitude > 126.143064 && position.coords.longitude < 126.971798 && position.coords.longitude) || 126.531139;
+            let latitude = (position.coords.latitude > 33.111343 && position.coords.latitude < 33.567587 && position.coords.latitude) || 33.500361;
             let mapContainer = document.getElementById('map'),
                 mapOption = {
                     center: new daum.maps.LatLng(latitude, longitude),
@@ -88,14 +88,10 @@ class Map extends Component {
 
     addEventListener = () => {
         // 중심 위치 변경 이벤트
-        daum.maps.event.addListener(map, 'center_changed', () => {
-            this.handleShow();
-        });
+        daum.maps.event.addListener(map, 'center_changed', this.handleShow);
 
         // 확대 축소 이벤트
-        daum.maps.event.addListener(map, 'zoom_changed', () => {
-            this.handleShow();
-        });
+        daum.maps.event.addListener(map, 'zoom_changed', this.handleShow);
     };
 
     handleShow = () => {
@@ -134,10 +130,11 @@ class Map extends Component {
             <Fragment>
                 {
                     !this.state.isSearch && <div className='research-box'>
-                        <button type='button' className='btn-research' onClick={this.searchStores}>이 위치에서 가게 재검색</button>
+                        <button type='button' className='btn-research' onClick={this.searchStores}>이 위치에서 가게 재검색
+                        </button>
                     </div>
                 }
-                <div id="map" style={{ height: window.innerHeight + 'px' }} />
+                <div id="map" style={{height: window.innerHeight + 'px'}}/>
             </Fragment>
         )
     };
