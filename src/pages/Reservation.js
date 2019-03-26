@@ -42,10 +42,17 @@ class Reservation extends Component {
     }
 
     bookStore = async () => {
+
+        if (!Number.isInteger(Number(this.state.myTeamCount)) || this.state.myTeamCount <= 0) {
+            alert('정확한 인원을 입력해주세요.');
+            return;
+        }
+
         let form = {
             storeId: this.props.match.params.id,
             customerCount: this.state.myTeamCount
         };
+
         try {
             let res = await bookingService.bookStore(form);
             alert(res.data.message);
