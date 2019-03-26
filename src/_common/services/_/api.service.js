@@ -34,6 +34,6 @@ export function removeMe() {
 }
 
 export function setAuthorization() {
-    let me = this.getMe();
+    let me = getMe();
     axios.defaults.headers.common['Authorization'] = `Bearer ${me.token}`;
 }
