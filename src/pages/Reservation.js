@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './Reservation.scss';
 import TitleBox from '../components/TitleBox';
 import Modal from '../components/Modal';
@@ -49,12 +49,17 @@ class Reservation extends Component {
         try {
             let res = await bookingService.bookStore(form);
             alert(res.data.message);
-            res.data.booking && this.setState({
-                status: res.data.booking.status
-            });
+
+            if (res.data.booking) {
+                this.setState({
+                    status: res.data.booking.status
+                });
+            }
+
             this.fetchWaitingCount();
         } catch (error) {
-            error.response.status === 406 && alert(error.response.data.message);
+            console.log(error);
+            if (error.response && error.response.status === 406) alert(error.response.data.message);
         }
     };
 
@@ -94,21 +99,21 @@ class Reservation extends Component {
                 <article className='reservation'>
                     <button className='btn-request' onClick={this.bookStore}>에약 신청하기</button>
                     <section className='wait-people'>
-                        <TitleBox contents='예상 대기 팀' />
+                        <TitleBox contents='예상 대기 팀'/>
                         <div className='wait-count'>{this.state.waitingCount}</div>
                     </section>
                     <section className='select-person'>
-                        <TitleBox contents='예약 인원 수' />
+                        <TitleBox contents='예약 인원 수'/>
                         <section className='select-input'>
                             <Input
                                 placeholder='0명'
                                 value={this.state.myTeamCount}
                                 onChange={this.handleChange}
-                                name='myTeamCount' />
+                                name='myTeamCount'/>
                         </section>
                     </section>
                     <section className='reserve-notice'>
-                        <DescriptionBox contents={notice} />
+                        <DescriptionBox contents={notice}/>
                     </section>
                 </article>
             </Modal>
