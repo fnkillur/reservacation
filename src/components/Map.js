@@ -9,40 +9,8 @@ let map;
 class Map extends Component {
 
     state = {
-        isSearch: false,
-        markers: []
+        isSearch: false
     };
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        prevState.markers.forEach(marker => {
-            marker.pin.setMap(null);
-            marker.overlay.setMap(null);
-        });
-
-        let markers = [];
-        nextProps.stores.forEach(store => {
-            let marker = new daum.maps.Marker({
-                map: map,
-                position: new daum.maps.LatLng(store.latitude, store.longitude)
-            });
-
-            let overlay = new daum.maps.CustomOverlay({
-                content: store.store_name,
-                map: map,
-                position: marker.getPosition()
-            });
-
-            (function (marker, overlay) {
-                daum.maps.event.addListener(marker, 'click', function () {
-                    overlay.setMap(map);
-                });
-            })(marker, overlay);
-
-            markers.push({pin: marker, overlay});
-        });
-
-        return {markers};
-    }
 
     componentDidMount() {
         let geo_success = (position) => {
@@ -50,7 +18,6 @@ class Map extends Component {
         };
 
         let geo_error = () => {
-            // alert('허용하지 않으면 이 서비스 사용에 제한됩니다.');
             // 기본값은 제주 시청
             this.showPosition({
                 coords: {
@@ -125,7 +92,21 @@ class Map extends Component {
         });
     };
 
+    renderMarkers = () => {
+        this.props.markers.forEach(marker => {
+            (function (marker, infoWindow) {
+                daum.maps.event.addListener(marker, 'click', () => {
+                    infoWindow.open(map, marker);
+                });
+            })(marker.pin, marker.infoWindow);
+
+            marker.pin.setMap(map);
+        });
+    };
+
     render() {
+        this.renderMarkers();
+
         return (
             <Fragment>
                 {
