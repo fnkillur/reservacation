@@ -12,6 +12,7 @@ import StoreDetail from './StoreDetail';
 import {isMobile} from '../_common/const/const';
 import * as storeService from '../_common/services/store.service';
 import 'es6-promise/auto';
+import 'babel-polyfill';
 
 class App extends Component {
 
