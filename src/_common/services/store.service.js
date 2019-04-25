@@ -1,7 +1,7 @@
 import * as apiService from '../services/_/api.service';
 
 export function getStores() {
-    return apiService.getAction('stores');
+    return apiService.getAction('storeList');
 }
 
 export function getStoreById(id) {

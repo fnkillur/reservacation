@@ -1,24 +1,24 @@
 .store-list {
-    width: 408px;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    @media screen and (max-width: 775px) {
-        display: flex;    
-    }
+  width: 408px;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  @media screen and (max-width: 775px) {
+    display: flex;
+  }
 
-    a {
-        text-decoration: none;
-        color: black;
-    }
+  a {
+    text-decoration: none;
+    color: black;
+  }
 
-    .store {
-        border-bottom: 1px solid #e6e6e6;
-        padding: 15px 8px;
-        cursor: pointer;
-    }
+  .store {
+    border-bottom: 1px solid #e6e6e6;
+    padding: 15px 8px;
+    cursor: pointer;
+  }
 }
 
 .none {
-    display: none;
+  display: none;
 }

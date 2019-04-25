@@ -1,22 +1,22 @@
 .main {
-    display: flex;
-    @media screen and (max-width: 775px) {
-        display: block;
-    }
+  display: flex;
+  @media screen and (max-width: 775px) {
+    display: block;
+  }
 
-    .stores {
-        @media screen and (max-width: 775px) {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            overflow-x: scroll;
-            background-color: white;
-        }
+  .stores {
+    @media screen and (max-width: 775px) {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      overflow-x: scroll;
+      background-color: white;
     }
-    
-    .map {
-        width: 100%;
-    }
+  }
+
+  .map {
+    width: 100%;
+  }
 }
