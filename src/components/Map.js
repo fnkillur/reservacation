@@ -5,11 +5,15 @@ import React, {Component} from 'react';
 import './Map.scss';
 import {connect} from 'react-redux';
 import {getAroundStores} from '../_common/services/store.service';
-import {setStoreList, setMarkers, toggleSearch} from '../actions';
+import {setStoreList, setMarkers} from '../actions';
 
 let map;
 
 class Map extends Component {
+
+  state = {
+    isSearchable: true
+  };
 
   componentDidMount() {
     const geo_success = (position) => {
@@ -60,7 +64,7 @@ class Map extends Component {
   };
 
   handleShow = () => {
-    !this.props.isSearchable && this.props.toggleSearch(true);
+    !this.state.isSearchable && this.setState({isSearchable: true});
   };
 
   searchStores = () => {
@@ -83,7 +87,7 @@ class Map extends Component {
     };
 
     this.handleSearch(position);
-    this.props.toggleSearch(false);
+    this.setState({isSearchable: false});
   };
 
   handleSearch = async position => {
@@ -145,7 +149,7 @@ class Map extends Component {
 
     return (
       <React.Fragment>
-        {this.props.isSearchable && this.renderSearchButton()}
+        {this.state.isSearchable && this.renderSearchButton()}
         <div id="map" style={{height: window.innerHeight + 'px'}}/>
       </React.Fragment>
     )
@@ -153,14 +157,12 @@ class Map extends Component {
 }
 
 const mapStateToProps = state => ({
-  markers: state.markers,
-  isSearchable: state.isSearchable
+  markers: state.markers
 });
 
 const mapDispatchToProps = dispatch => ({
   setStoreList: stores => dispatch(setStoreList(stores)),
-  setMarkers: markers => dispatch(setMarkers(markers)),
-  toggleSearch: isSearchable => dispatch(toggleSearch(isSearchable))
+  setMarkers: markers => dispatch(setMarkers(markers))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Map);

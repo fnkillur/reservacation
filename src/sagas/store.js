@@ -1,5 +1,5 @@
 import {put, takeEvery} from 'redux-saga/effects';
-import * as types from '../actions/actionTypes';
+import {FETCH_STORE} from '../actions/actionTypes';
 import {getStoreById} from '../_common/services/store.service';
 import {fetchStoreSucceeded, fetchStoreFailed} from '../actions';
 
@@ -12,6 +12,6 @@ function* fetchStore(action) {
   }
 }
 
-export default function* storeSaga() {
-  yield takeEvery(types.FETCH_STORE, fetchStore);
+export default function* watchStoreSaga() {
+  yield takeEvery(FETCH_STORE, fetchStore);
 }

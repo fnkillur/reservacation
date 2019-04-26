@@ -4,21 +4,6 @@ import Input from "../components/Input";
 
 const AuthForm = ({form, user, onCreate, onChange}) => {
 
-  const renderFields = () => {
-    return form.inputList.map((input, index) => (
-      <div key={index} className='form-inner'>
-        <Input
-          name={input.name}
-          type={input.type}
-          value={input.value}
-          onChange={handleChange}
-          placeholder={input.placeholder}
-          required={true}
-        />
-      </div>
-    ));
-  };
-
   const handleChange = e => {
     onChange({name: e.target.name, value: e.target.value});
   };
@@ -32,6 +17,21 @@ const AuthForm = ({form, user, onCreate, onChange}) => {
     }
 
     onCreate(user);
+  };
+
+  const renderFields = () => {
+    return form.inputList.map((input, index) => (
+      <div key={index} className='form-inner'>
+        <Input
+          name={input.name}
+          type={input.type}
+          value={input.value}
+          onChange={handleChange}
+          placeholder={input.placeholder}
+          required={true}
+        />
+      </div>
+    ));
   };
 
   return (

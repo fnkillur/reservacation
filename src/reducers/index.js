@@ -1,18 +1,18 @@
 import {combineReducers} from 'redux';
 import storeList from './storeList';
 import markers from './markers';
-import isSearchable from './isSearchable';
 import store from './store';
-import isOpenReview from './isOpenReview';
 import user from './user';
+import guestCount from './guestCount';
+import reservationInfo from './reservationInfo';
 
 const reducer = combineReducers({
   storeList,
   markers,
-  isSearchable,
   store,
-  isOpenReview,
-  user
+  user,
+  guestCount,
+  reservationInfo
 });
 
 export default reducer;

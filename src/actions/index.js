@@ -10,11 +10,6 @@ export const setMarkers = markers => ({
   markers
 });
 
-export const toggleSearch = isSearchable => ({
-  type: types.TOGGLE_SEARCH,
-  isSearchable
-});
-
 export const fetchStore = id => ({
   type: types.FETCH_STORE,
   id
@@ -30,11 +25,27 @@ export const fetchStoreFailed = error => ({
   error
 });
 
-export const toggleReview = () => ({
-  type: types.TOGGLE_REVIEW
-});
-
 export const inputUserInfo = input => ({
   type: types.INPUT_USER_INFO,
   input
+});
+
+export const inputGuestCount = input => ({
+  type: types.INPUT_GUEST_COUNT,
+  input
+});
+
+export const fetchReservationInfo = id => ({
+  type: types.FETCH_RESERVATION_INFO,
+  id
+});
+
+export const fetchReservationInfoSucceeded = payload => ({
+  type: types.FETCH_RESERVATION_INFO_SUCCEEDED,
+  payload
+});
+
+export const fetchReservationInfoFailed = error => ({
+  type: types.FETCH_RESERVATION_INFO_FAILED,
+  error
 });

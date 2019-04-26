@@ -1,5 +1,5 @@
 .auth {
-  margin: 100px auto;
+  margin: 200px auto;
   padding: 0;
   width: 500px;
   font-size: 13px;
@@ -8,46 +8,38 @@
     width: 100%;
   }
 
-  .logo {
-    width: 100px;
-    height: 100px;
-
-    a {
-      text-decoration: none;
-      color: black;
-    }
+  a {
+    text-decoration: none;
+    color: black;
   }
 
   .title {
     font-size: 24px;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
   }
 
   .link-list {
     margin-top: 20px;
     text-align: center;
 
-    .link-box {
+    .link-info {
       display: flex;
       justify-content: center;
-    }
 
-    .btn-link {
-      font-weight: bold;
-      font-size: 14px;
-      color: #0366d6;
-      border: 0;
-      cursor: pointer;
-      outline: none;
-      margin-left: 10px;
-      padding: 0px;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
+      .btn-link {
+        font-weight: bold;
+        font-size: 14px;
+        color: #0366d6;
+        border: 0;
+        cursor: pointer;
+        outline: none;
+        margin-left: 10px;
+        padding: 0px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }
     }
   }
 }

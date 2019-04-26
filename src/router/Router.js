@@ -6,12 +6,12 @@ import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import reducer from '../reducers';
 import createSagaMiddleware from 'redux-saga';
-import storeSaga from '../sagas/store';
+import sagas from '../sagas/index';
 
 const saga = createSagaMiddleware();
 const store = createStore(reducer, applyMiddleware(saga));
 
-saga.run(storeSaga);
+saga.run(sagas);
 
 const Router = () => {
   return (

@@ -9,16 +9,20 @@ import Modal from '../components/Modal';
 import StoreCard from '../organisms/StoreCard';
 import ReviewForm from '../organisms/ReviewForm';
 import ReviewList from '../organisms/ReviewList';
-import * as userService from '../_common/services/user.service';
-import * as reviewService from '../_common/services/review.service';
+import {identifyLogin} from '../_common/services/user.service';
+import {writeReview} from '../_common/services/review.service';
 import {connect} from 'react-redux';
-import {fetchStore, toggleReview} from "../actions";
+import {fetchStore} from "../actions";
 
 class StoreDetail extends Component {
 
+  state = {
+    isOpen: false
+  };
+
   shouldComponentUpdate(nextProps, nextState) {
     return (nextProps.store !== this.props.store)
-      || (nextProps.isOpen !== this.props.isOpen);
+      || (nextState.isOpen !== this.state.isOpen);
   }
 
   componentDidMount() {
@@ -74,25 +78,15 @@ class StoreDetail extends Component {
     });
   };
 
-  renderReviewButton = token => {
-    if (token) {
-      return (
-        <button
-          className='btn-review'
-          onClick={this.toggleReviewForm}>
-          {(!this.props.isOpen && '리뷰 작성하기') || '작성 취소'}
-        </button>
-      );
-    }
-  };
-
   toggleReviewForm = () => {
-    this.props.toggleReview();
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
   };
 
-  handleCreate = async (review) => {
+  handleCreate = async review => {
     try {
-      let res = await reviewService.writeReview(review);
+      const res = await writeReview(review);
       alert(res.data.message);
       window.location.reload();
     } catch (error) {
@@ -101,10 +95,10 @@ class StoreDetail extends Component {
   };
 
   render() {
-    let id = this.props.match.params.id;
-    let query = queryString.parse(this.props.location.search);
-    let token = userService.identifyLogin();
-    let callbackUrl = `callback_url=/stores/${id}?reviewPageNo=${query.reviewPageNo}&perPageNo=${query.perPageNo}`;
+    const id = this.props.match.params.id;
+    const query = queryString.parse(this.props.location.search);
+    const token = identifyLogin();
+    const callbackUrl = `callback_url=/stores/${id}?reviewPageNo=${query.reviewPageNo}&perPageNo=${query.perPageNo}`;
 
     return (
       <Modal hasBtnBack={false}>
@@ -132,9 +126,12 @@ class StoreDetail extends Component {
           </section>
           <SectionDivider/>
           <section className='review-button'>
-            {this.renderReviewButton(token)}
+            {(token && <button className='btn-review'
+                               onClick={this.toggleReviewForm}>
+              {(!this.state.isOpen && '리뷰 작성하기') || '작성 취소'}
+            </button>) || ''}
           </section>
-          <section className={(this.props.isOpen && 'review-create') || 'review-hidden'}>
+          <section className={(this.state.isOpen && 'review-create') || 'review-hidden'}>
             <ReviewForm storeId={id} onCreate={this.handleCreate}/>
           </section>
         </article>
@@ -144,13 +141,11 @@ class StoreDetail extends Component {
 }
 
 const mapStateToProps = state => ({
-  store: state.store,
-  isOpen: state.isOpenReview
+  store: state.store
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchStore: id => dispatch(fetchStore(id)),
-  toggleReview: () => dispatch(toggleReview())
+  fetchStore: id => dispatch(fetchStore(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StoreDetail);

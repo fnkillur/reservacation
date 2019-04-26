@@ -1,60 +1,60 @@
 .reservation {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  @media screen and (max-width: 775px) {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .btn-request {
+    font-weight: bold;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
     width: 100%;
-    height: 100%;
-    @media screen and (max-width: 775px) {
-        width: 90%;
-        margin: 0 auto;
+    height: 30px;
+    background-color: #FA5858;
+    font-size: 15px;
+    color: white;
+    margin: 0 auto;
+  }
+
+  .wait-people {
+    width: 100%;
+    height: 80px;
+    margin-top: 20px;
+    padding: 15px 0;
+    text-align: center;
+    color: white;
+    border: 0;
+    background-color: #F78181;
+
+    .wait-count {
+      font-size: 40px;
+      font-weight: bold;
     }
+  }
 
-    .btn-request {
-        font-weight: bold;
-        border: 0;
-        border-radius: 5px;
-        cursor: pointer;
-        outline: none;
-        width: 100%;
-        height: 30px;
-        background-color: #FA5858;
-        font-size: 15px;
-        color: white;
-        margin: 0 auto;
+  .select-person {
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+    text-align: center;
+
+    .select-input {
+      width: 50px;
+      margin: 10px auto;
     }
+  }
 
-    .wait-people {
-        width: 100%;
-        height: 80px;
-        margin-top: 20px;
-        padding: 15px 0;
-        text-align: center;
-        color: white;
-        border: 0;
-        background-color: #F78181;
-
-        .wait-count {
-            font-size: 40px;
-            font-weight: bold;
-        }
-    }
-
-    .select-person {
-        width: 100%;
-        height: 50px;
-        margin-top: 20px;
-        text-align: center;
-
-        .select-input {
-            width: 50px;
-            margin: 10px auto;
-        }
-    }
-
-    .reserve-notice {
-        width: 100%;
-        height: 200px;
-        text-align: center;
-        line-height: 200px;
-        font-weight: bold;
-    }
+  .reserve-notice {
+    width: 100%;
+    height: 200px;
+    text-align: center;
+    line-height: 200px;
+    font-weight: bold;
+  }
 }

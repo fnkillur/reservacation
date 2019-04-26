@@ -5,7 +5,7 @@ import TitleBox from '../components/TitleBox';
 import AuthForm from '../organisms/AuthForm';
 import DescriptionBox from '../components/DescriptionBox';
 import SectionDivider from '../components/SectionDivider';
-import * as userService from '../_common/services/user.service';
+import {login, setLogin, register} from "../_common/services/user.service";
 import {connect} from 'react-redux';
 import {inputUserInfo} from '../actions';
 
@@ -58,10 +58,10 @@ const Auth = ({location, match, user, onChange}) => {
         //TODO: 패스워드 찾기 로직
         break;
       case 'login':
-        login(formData);
+        onLogin(formData);
         break;
       case 'register':
-        register(formData);
+        onRegister(formData);
         break;
       default:
         console.error('url 오류');
@@ -73,29 +73,25 @@ const Auth = ({location, match, user, onChange}) => {
     onChange({email: '', password: '', rePassword: '', phone: '', name: ''});
   };
 
-  const getCallbackUrl = () => {
-    return (location.search && location.search.replace(new RegExp('\\?.+url=', 'g'), '')) || '';
-  };
+  const callbackUrl = (location.search && location.search.replace(new RegExp('\\?.+url=', 'g'), '')) || '';
 
-  const login = async user => {
+  const onLogin = async user => {
     try {
-      const res = await userService.login(user);
+      const res = await login(user);
+      setLogin(res.data);
 
-      userService.setLogin(res.data);
       initUser();
-      window.location.href = getCallbackUrl() || '/storeList';
+      window.location.href = callbackUrl || '/stores';
     } catch (error) {
       alert(error.response.data.message);
     }
   };
 
-  const register = async user => {
-    const callbackUrl = getCallbackUrl();
-
+  const onRegister = async user => {
     try {
-      const res = await userService.register(user);
-
+      const res = await register(user);
       alert(res.data.message);
+
       initUser();
       window.location.href = (callbackUrl && `/auth/login?callback_url=${callbackUrl}`) || '/auth/login';
     } catch (error) {
@@ -103,41 +99,26 @@ const Auth = ({location, match, user, onChange}) => {
     }
   };
 
-  const renderFooter = () => {
-    const callbackUrl = getCallbackUrl();
-
+  const renderFooter = (desc, pathname, btnName) => {
     return (
-      <footer className='link-list'>
-        <section className='link-box'>
-          <section className='description-box'>
-            <DescriptionBox contents='새로 오셨나요?'/>
-          </section>
-          <Link to={{pathname: '/auth/register', search: `callbackUrl && callback_url=${callbackUrl}`}}>
-            <button className='btn-link'>회원가입</button>
+      <section className='link-box'>
+        <section className='link-info'>
+          <div><DescriptionBox contents={desc}/></div>
+          <Link to={{pathname, search: `callback_url=${callbackUrl}`}}>
+            <button className='btn-link'>{btnName}</button>
           </Link>
         </section>
         <SectionDivider/>
-        <section className='link-box'>
-          <section className='description-box'>
-            <DescriptionBox contents='비밀번호를 잊으셨나요?'/>
-          </section>
-          <Link to={{pathname: '/auth/findPassword', search: `callback_url=${callbackUrl}`}}>
-            <button className='btn-link'>비밀번호 찾기</button>
-          </Link>
-        </section>
-      </footer>
+      </section>
     );
   };
 
   return (
-    <article className='auth'>
+    <section className='auth'>
       <header className='title'>
-        <section className='logo'>
-          <Link to='/stores'>
-            <img src='' alt='로고'/>
-          </Link>
-        </section>
-        <TitleBox contents='Reservacation'/>
+        <Link to='/stores'>
+          <TitleBox contents='Reservacation'/>
+        </Link>
       </header>
       <AuthForm
         form={formFactory[kind]}
@@ -145,8 +126,12 @@ const Auth = ({location, match, user, onChange}) => {
         onChange={onChange}
         onCreate={handleCreate}
       />
-      {(kind === 'login' && renderFooter()) || ''}
-    </article>
+      <footer className='link-list'>
+        {(kind !== 'login' && renderFooter('이미 가입하셨나요?', '/auth/login', '로그인')) || ''}
+        {(kind !== 'register' && renderFooter('새로 오셨나요?', '/auth/register', '회원가입')) || ''}
+        {(kind !== 'findPassword' && renderFooter('비밀번호를 잊으셨나요?', '/auth/findPassword', '비밀번호 찾기')) || ''}
+      </footer>
+    </section>
   );
 }
 
