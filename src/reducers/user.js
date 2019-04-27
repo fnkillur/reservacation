@@ -1,9 +1,13 @@
-import {INPUT_USER_INFO} from "../actions/actionTypes";
+import {UPDATE_FIELD_AUTH, CLEAR_FIELD_AUTH} from "../actions/actionTypes";
 
-const user = (state = {email: '', password: '', rePassword: '', phone: '', name: ''}, action) => {
+const initState = {email: '', password: '', rePassword: '', phone: '', name: ''};
+
+const user = (state = initState, action) => {
   switch (action.type) {
-    case INPUT_USER_INFO:
-      return {...state, [action.input.name]: action.input.value};
+    case UPDATE_FIELD_AUTH:
+      return {...state, [action.key]: action.value};
+    case CLEAR_FIELD_AUTH:
+      return {...initState};
     default:
       return state;
   }

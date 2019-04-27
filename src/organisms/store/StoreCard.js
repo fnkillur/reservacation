@@ -1,7 +1,7 @@
 import React from 'react';
-import Image from '../components/Image';
-import DescriptionBox from '../components/DescriptionBox';
-import TitleBox from '../components/TitleBox';
+import Image from '../../components/Image';
+import DescriptionBox from '../../components/DescriptionBox';
+import TitleBox from '../../components/TitleBox';
 import './StoreCard.scss';
 import PropTypes from 'prop-types';
 

@@ -1,33 +1,25 @@
 import React, {Component} from 'react';
-import './StoreDetail.scss';
+import './Store.scss'
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 import queryString from 'query-string';
-import Image from '../components/Image';
-import TitleBox from '../components/TitleBox';
-import SectionDivider from '../components/SectionDivider';
 import Modal from '../components/Modal';
-import StoreCard from '../organisms/StoreCard';
-import ReviewForm from '../organisms/ReviewForm';
-import ReviewList from '../organisms/ReviewList';
+import SectionDivider from '../components/SectionDivider';
+import StoreDetail from '../organisms/store/StoreDetail';
+import ReviewList from '../organisms/review/ReviewList';
+import ReviewForm from '../organisms/review/ReviewForm';
 import {identifyLogin} from '../_common/services/user.service';
 import {writeReview} from '../_common/services/review.service';
-import {connect} from 'react-redux';
-import {fetchStore} from "../actions";
+import {fetchStoreDetail} from '../actions';
 
-class StoreDetail extends Component {
+class Store extends Component {
 
   state = {
     isOpen: false
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return (nextProps.store !== this.props.store)
-      || (nextState.isOpen !== this.state.isOpen);
-  }
-
   componentDidMount() {
-    const id = this.props.match.params.id;
-    id && this.props.fetchStore(id);
+    this.props.fetchStoreDetail(this.props.match.params.id);
   }
 
   renderReserveButton = (pathname, search, btnName) => {
@@ -36,40 +28,6 @@ class StoreDetail extends Component {
         <button className='btn-reserve'>{btnName}</button>
       </Link>
     );
-  };
-
-  renderStoreCard = () => {
-    const store = this.props.store.info;
-
-    if (store) {
-      return (
-        <StoreCard
-          imgSrc={store.img_src}
-          imgAlt={store.store_name}
-          name={store.store_name}
-          address={store.address + store.detail_address}
-          tel={store.store_tel}
-          description={store.store_description}
-          whiteSpace='pre-wrap'
-        />
-      );
-    }
-  };
-
-  renderImages = () => {
-    const images = this.props.store.images;
-
-    if (images) {
-      return images.map(img => {
-        return (
-          <div className='img' key={img.id}>
-            <Image
-              src={img.src}
-              alt={this.props.store.info.store_name}/>
-          </div>
-        );
-      });
-    }
   };
 
   pushQueryString = (reviewPageNo, perPageNo) => {
@@ -97,25 +55,18 @@ class StoreDetail extends Component {
   render() {
     const id = this.props.match.params.id;
     const query = queryString.parse(this.props.location.search);
-    const token = identifyLogin();
     const callbackUrl = `callback_url=/stores/${id}?reviewPageNo=${query.reviewPageNo}&perPageNo=${query.perPageNo}`;
+    const token = identifyLogin();
 
     return (
       <Modal hasBtnBack={false}>
-        <article className='store-detail'>
+        <section className='store'>
           {(token && this.renderReserveButton(`/stores/${id}/reserve`, callbackUrl, '예약하기'))
           || this.renderReserveButton('/auth/login', callbackUrl, '로그인 후 예약하기')}
           <SectionDivider/>
-          <section className='store-info'>
-            {this.renderStoreCard()}
-          </section>
-          <SectionDivider/>
-          <TitleBox contents={(this.props.store.images && `${this.props.store.info.store_name}의 분위기 넘치는 사진들`) || ''}/>
-          <section className='img-list'>
-            {this.renderImages()}
-          </section>
-          <SectionDivider/>
-          <TitleBox contents={(this.props.store.images && `${this.props.store.info.store_name}의 생생한 리뷰들`) || ''}/>
+          <StoreDetail
+            store={this.props.store}
+          />
           <section className='store-reviews'>
             <ReviewList
               id={id}
@@ -124,28 +75,26 @@ class StoreDetail extends Component {
               pushQueryString={this.pushQueryString}
               callbackUrl={callbackUrl}/>
           </section>
-          <SectionDivider/>
           <section className='review-button'>
-            {(token && <button className='btn-review'
-                               onClick={this.toggleReviewForm}>
+            {(token && <button className='btn-review' onClick={this.toggleReviewForm}>
               {(!this.state.isOpen && '리뷰 작성하기') || '작성 취소'}
             </button>) || ''}
           </section>
           <section className={(this.state.isOpen && 'review-create') || 'review-hidden'}>
             <ReviewForm storeId={id} onCreate={this.handleCreate}/>
           </section>
-        </article>
+        </section>
       </Modal>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  store: state.store
+  store: state.storeDetail
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchStore: id => dispatch(fetchStore(id))
+  fetchStoreDetail: id => dispatch(fetchStoreDetail(id))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(StoreDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(Store);

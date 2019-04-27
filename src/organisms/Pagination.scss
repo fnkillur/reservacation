@@ -1,48 +1,49 @@
 .pagination {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+
+  .hide {
+    display: none;
+  }
+
+  .btn-left {
+    position: absolute;
+    left: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    height: 110px;
     display: flex;
-
-    .hide {
-        display: none;
+    align-items: center;
+    @media screen and (max-width: 775px) {
+      font-size: 15px;
+      left: 5px;
     }
+  }
 
-    .btn-left {
-        position: absolute;
-        left: 10px;
-        font-size: 20px;
-        cursor: pointer;
-        height: 110px;
-        display: flex;
-        align-items: center;
-        @media screen and (max-width: 775px) {
-            font-size: 15px;
-            left: 5px;
-        }
+  .children {
+    text-align: center;
+    display: flex;
+    width: 100%;
+    margin: 5px 0;
+    @media screen and (max-width: 775px) {
+      justify-content: space-between;
     }
+  }
 
-    .children {
-        text-align: center;
-        display: flex;
-        width: 100%;
-        @media screen and (max-width: 775px) {
-            justify-content: space-between;
-        }
+  .btn-right {
+    position: absolute;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    @media screen and (max-width: 775px) {
+      font-size: 15px;
+      right: 5px;
     }
-
-    .btn-right {
-        position: absolute;
-        right: 10px;
-        font-size: 20px;
-        cursor: pointer;
-        height: 110px;
-        display: flex;
-        align-items: center;
-        @media screen and (max-width: 775px) {
-            font-size: 15px;
-            right: 5px;
-        }
-    }
+  }
 }

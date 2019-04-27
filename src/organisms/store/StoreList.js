@@ -1,8 +1,8 @@
 import React from 'react';
 import './StoreList.scss';
 import {Link} from 'react-router-dom';
-import StoreCard from '../organisms/StoreCard';
-import {isMobile} from '../_common/const/const';
+import StoreCard from './StoreCard';
+import {isMobile} from '../../_common/const/const';
 import {connect} from 'react-redux';
 
 const StoreList = ({storeList}) => {

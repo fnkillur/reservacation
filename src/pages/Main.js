@@ -1,34 +1,28 @@
 import React from 'react';
-import './App.scss';
+import './Main.scss';
 import {Route, Switch} from 'react-router-dom';
-import StoreList from '../organisms/StoreList';
+import StoreList from '../organisms/store/StoreList';
 import Map from '../components/Map';
 import ReviewDetail from './ReviewDetail';
 import Reservation from './Reservation';
-import StoreDetail from './StoreDetail';
+import Store from './Store';
 import {isMobile} from '../_common/const/const';
-import 'es6-promise/auto';
-import 'babel-polyfill';
 
-const App = () => {
+const Main = () => {
   return (
     <main className='main'>
-      {
-        isMobile || <section className='stores'><StoreList/></section>
-      }
+      {isMobile || <section className='stores'><StoreList/></section>}
       <section className='map'>
         <Map/>
       </section>
-      {
-        !isMobile || <section className='stores'><StoreList/></section>
-      }
+      {!isMobile || <section className='stores'><StoreList/></section>}
       <Switch>
         <Route path={'/stores/:id/reviews/:reviewId'} component={ReviewDetail}/>
         <Route path={'/stores/:id/reserve'} component={Reservation}/>
-        <Route path={'/stores/:id'} component={StoreDetail}/>
+        <Route path={'/stores/:id'} component={Store}/>
       </Switch>
     </main>
   );
-}
+};
 
-export default App;
+export default Main;

@@ -1,4 +1,4 @@
-.store-detail {
+.store {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -26,34 +26,12 @@
     color: white;
   }
 
-  .store-info {
-    margin: 10px 0;
-  }
-
   .btn-arrow {
     width: 50px;
     height: 50px;
     vertical-align: middle;
     font-size: 20px;
     font-weight: bold;
-  }
-
-  .img-list {
-    display: flex;
-    align-items: center;
-    margin-top: 5px;
-    margin-bottom: 10px;
-
-    .img {
-      width: 90px;
-      height: 92px;
-      margin-right: 10px;
-      cursor: pointer;
-    }
-  }
-
-  .store-reviews {
-    margin-top: 10px;
   }
 
   .review-button {

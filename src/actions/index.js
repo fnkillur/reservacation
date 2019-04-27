@@ -10,24 +10,29 @@ export const setMarkers = markers => ({
   markers
 });
 
-export const fetchStore = id => ({
-  type: types.FETCH_STORE,
+export const fetchStoreDetail = id => ({
+  type: types.FETCH_STORE_DETAIL,
   id
 });
 
-export const fetchStoreSucceeded = payload => ({
-  type: types.FETCH_STORE_SUCCEEDED,
+export const fetchStoreDetailSucceeded = payload => ({
+  type: types.FETCH_STORE_DETAIL_SUCCEEDED,
   payload
 });
 
-export const fetchStoreFailed = error => ({
-  type: types.FETCH_STORE_FAILED,
+export const fetchStoreDetailFailed = error => ({
+  type: types.FETCH_STORE_DETAIL_FAILED,
   error
 });
 
-export const inputUserInfo = input => ({
-  type: types.INPUT_USER_INFO,
-  input
+export const updateFieldAuth = (key, value) => ({
+  type: types.UPDATE_FIELD_AUTH,
+  key,
+  value
+});
+
+export const clearFieldAuth = () => ({
+  type: types.CLEAR_FIELD_AUTH
 });
 
 export const inputGuestCount = input => ({
@@ -47,5 +52,22 @@ export const fetchReservationInfoSucceeded = payload => ({
 
 export const fetchReservationInfoFailed = error => ({
   type: types.FETCH_RESERVATION_INFO_FAILED,
+  error
+});
+
+export const fetchReviewList = (id, pageNo, perPageNo) => ({
+  type: types.FETCH_REVIEW_LIST,
+  id,
+  pageNo,
+  perPageNo
+});
+
+export const fetchReviewListSucceeded = payload => ({
+  type: types.FETCH_REVIEW_LIST_SUCCEEDED,
+  payload
+});
+
+export const fetchReviewListFailed = error => ({
+  type: types.FETCH_REVIEW_LIST_FAILED,
   error
 });

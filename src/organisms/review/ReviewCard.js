@@ -1,6 +1,6 @@
 import React from 'react';
-import Image from '../components/Image';
-import DescriptionBox from '../components/DescriptionBox';
+import Image from '../../components/Image';
+import DescriptionBox from '../../components/DescriptionBox';
 import './ReviewCard.scss';
 import PropTypes from 'prop-types';
 
