@@ -1,12 +1,14 @@
 import {FETCH_STORE_DETAIL_SUCCEEDED, FETCH_STORE_DETAIL_FAILED} from '../actions/actionTypes';
 
-const storeDetail = (state = {}, action) => {
+const initState = {info: {}, images: []};
+
+const storeDetail = (state = initState, action) => {
   switch (action.type) {
     case FETCH_STORE_DETAIL_SUCCEEDED:
       return action.payload.data;
     case FETCH_STORE_DETAIL_FAILED:
       console.log(action.error);
-      return {};
+      return {...initState};
     default:
       return state;
   }

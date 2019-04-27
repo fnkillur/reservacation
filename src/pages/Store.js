@@ -60,12 +60,12 @@ class Store extends Component {
 
     return (
       <Modal hasBtnBack={false}>
-        <section className='store'>
+        <section className='store-info'>
           {(token && this.renderReserveButton(`/stores/${id}/reserve`, callbackUrl, '예약하기'))
           || this.renderReserveButton('/auth/login', callbackUrl, '로그인 후 예약하기')}
           <SectionDivider/>
           <StoreDetail
-            store={this.props.store}
+            storeDetail={this.props.storeDetail}
           />
           <section className='store-reviews'>
             <ReviewList
@@ -90,7 +90,7 @@ class Store extends Component {
 }
 
 const mapStateToProps = state => ({
-  store: state.storeDetail
+  storeDetail: state.storeDetail
 });
 
 const mapDispatchToProps = dispatch => ({
