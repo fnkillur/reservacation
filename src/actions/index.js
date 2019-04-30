@@ -5,11 +5,6 @@ export const setStoreList = storeList => ({
   storeList
 });
 
-export const setMarkers = markers => ({
-  type: types.SET_MARKERS,
-  markers
-});
-
 export const fetchStoreDetail = id => ({
   type: types.FETCH_STORE_DETAIL,
   id

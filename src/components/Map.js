@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import './Map.scss';
 import {connect} from 'react-redux';
 import {getAroundStores} from '../_common/services/store.service';
-import {setStoreList, setMarkers} from '../actions';
+import {setStoreList} from '../actions';
 
 let map;
 
@@ -16,7 +16,7 @@ class Map extends Component {
   };
 
   componentDidMount() {
-    const geo_success = (position) => {
+    const geo_success = position => {
       this.showPosition(position);
     };
 
@@ -40,16 +40,15 @@ class Map extends Component {
   }
 
   showPosition = position => {
-    if (("daum" in window)) {
-      const longitude = (position.coords.longitude && position.coords.longitude > 126.143064 && position.coords.longitude < 126.971798) || 126.531139;
-      const latitude = (position.coords.latitude && position.coords.latitude > 33.111343 && position.coords.latitude < 33.567587) || 33.500361;
-      const mapContainer = document.getElementById('map');
+    if ("daum" in window) {
+      const longitude = (position.coords.longitude > 126.143064 && position.coords.longitude < 126.971798 && position.coords.longitude) || 126.531139;
+      const latitude = (position.coords.latitude > 33.111343 && position.coords.latitude < 33.567587 && position.coords.latitude) || 33.500361;
       const mapOption = {
         center: new daum.maps.LatLng(latitude, longitude),
         level: 3
       };
 
-      map = new daum.maps.Map(mapContainer, mapOption);
+      map = new daum.maps.Map(document.getElementById('map'), mapOption);
 
       this.addEventListener();
     }
@@ -94,8 +93,8 @@ class Map extends Component {
     try {
       const res = await getAroundStores(position);
 
-      const aroundStores = res.data;
-      const aroundMarkers = aroundStores.map(store => {
+      const stores = res.data;
+      const markers = stores.map(store => {
         const marker = new daum.maps.Marker({
           position: new daum.maps.LatLng(store.latitude, store.longitude)
         });
@@ -114,8 +113,9 @@ class Map extends Component {
         marker.pin.setMap(null);
       });
 
-      this.props.setStoreList(aroundStores);
-      this.props.setMarkers(aroundMarkers);
+      console.log(stores);
+
+      this.props.setStoreList({stores, markers});
 
     } catch (error) {
       console.error(error);
@@ -157,12 +157,11 @@ class Map extends Component {
 }
 
 const mapStateToProps = state => ({
-  markers: state.markers
+  markers: state.storeList.markers
 });
 
 const mapDispatchToProps = dispatch => ({
-  setStoreList: stores => dispatch(setStoreList(stores)),
-  setMarkers: markers => dispatch(setMarkers(markers))
+  setStoreList: stores => dispatch(setStoreList(stores))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Map);

@@ -5,13 +5,13 @@ import StoreCard from './StoreCard';
 import {isMobile} from '../../_common/const/const';
 import {connect} from 'react-redux';
 
-const StoreList = ({storeList}) => {
+const StoreList = ({stores}) => {
 
   const perPageNo = (isMobile && 2) || 5;
 
   return (
-    <div className={(storeList.length && 'store-list') || 'none'}>
-      {storeList.map(store => {
+    <div className={(stores.length && 'store-list') || 'none'}>
+      {stores.map(store => {
         return (
           <article
             className='store'
@@ -34,7 +34,7 @@ const StoreList = ({storeList}) => {
 };
 
 const mapStateToProps = state => ({
-  storeList: state.storeList
+  stores: state.storeList.stores
 });
 
 export default connect(mapStateToProps)(StoreList);
