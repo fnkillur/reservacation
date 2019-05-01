@@ -6,7 +6,11 @@
 
   @media screen and (max-width: 775px) {
     width: 100%;
-    margin: 0 auto;
+    margin: 50px auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
   }
 
   a {
@@ -55,7 +59,7 @@
 
       .btn-link {
         font-weight: bold;
-        font-size: 14px;
+        font-size: 13px;
         color: #0366d6;
         border: 0;
         cursor: pointer;

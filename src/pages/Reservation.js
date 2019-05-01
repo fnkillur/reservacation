@@ -32,7 +32,7 @@ class Reservation extends Component {
       });
       alert(res.data.message);
 
-      this.props.fetchMyReservation(this.props.match.params.id);
+      this.props.fetchReservationInfo(this.props.match.params.id);
     } catch (error) {
       console.error(error);
       if (error.response && error.response.status === 406) alert(error.response.data.message);
