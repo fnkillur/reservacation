@@ -113,8 +113,6 @@ class Map extends Component {
         marker.pin.setMap(null);
       });
 
-      console.log(stores);
-
       this.props.setStoreList({stores, markers});
 
     } catch (error) {

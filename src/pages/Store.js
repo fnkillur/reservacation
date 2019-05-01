@@ -60,7 +60,7 @@ class Store extends Component {
 
     return (
       <Modal hasBtnBack={false}>
-        <section className='store-info'>
+        <section className='store-page'>
           {(token && this.renderReserveButton(`/stores/${id}/reserve`, callbackUrl, '예약하기'))
           || this.renderReserveButton('/auth/login', callbackUrl, '로그인 후 예약하기')}
           <SectionDivider/>
