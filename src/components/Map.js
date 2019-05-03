@@ -15,6 +15,11 @@ class Map extends Component {
     isSearchable: true
   };
 
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    return (nextProps.markers !== this.props.markers
+      || nextState.isSearchable !== this.state.isSearchable);
+  }
+
   componentDidMount() {
     const geo_success = position => {
       this.showPosition(position);

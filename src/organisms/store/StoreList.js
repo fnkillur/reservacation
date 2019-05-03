@@ -16,7 +16,7 @@ const StoreList = ({stores}) => {
           <article
             className='store'
             key={store.id}>
-            <Link to={`/stores/${store.id}?reviewPageNo=1&perPageNo=${perPageNo}`}>
+            <Link to={`/stores/${store.id}?reviewPageNo=0&perPageNo=${perPageNo}`}>
               <StoreCard
                 imgSrc={store.img_src}
                 imgAlt={store.store_name}

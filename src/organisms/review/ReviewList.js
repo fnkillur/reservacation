@@ -1,43 +1,29 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import './ReviewList.scss';
 import {Link} from 'react-router-dom';
 import ReviewCard from './ReviewCard';
 import Pagination from '../Pagination';
-import * as reviewService from '../../_common/services/review.service';
 import {fetchReviewList} from "../../actions";
 
 class ReviewList extends Component {
 
-  state = {
-    reviews: '',
-    reviewPageNo: this.props.reviewPageNo,
-    perPageNo: this.props.perPageNo
-  };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextState.reviews !== this.state.reviews;
-  }
-
   componentDidMount() {
-    // this.props.fetchReviewList(this.props.id, this.props.reviewPageNo, this.props.perPageNo);
-    this.fetchStoreReviews(this.props.reviewPageNo, this.props.perPageNo);
+    this.props.fetchReviewList(this.props.id, this.props.reviewPageNo, this.props.perPageNo);
   }
 
-  fetchStoreReviews = async (reviewPageNo, perPageNo) => {
-    let res = await reviewService.getReviewsByStoreId(this.props.id, reviewPageNo - 1, perPageNo);
+  shouldComponentUpdate(nextProps) {
+    return nextProps.reviewList !== this.props.reviewList;
+  }
 
-    this.setState({
-      reviews: res.data,
-      reviewPageNo,
-      perPageNo
-    });
-
+  fetchStoreReviews = (reviewPageNo, perPageNo) => {
+    this.props.fetchReviewList(this.props.id, reviewPageNo, perPageNo);
     this.props.pushQueryString(reviewPageNo, perPageNo);
   };
 
   renderReviews = () => {
     return (
-      (this.state.reviews.data && this.state.reviews.data.map(review => {
+      (this.props.reviewList.data.map(review => {
         return (
           <article className='review' key={review.id}>
             <Link to={{
@@ -60,9 +46,9 @@ class ReviewList extends Component {
     return (
       <div className='review-list'>
         <Pagination
-          reviewPageNo={this.state.reviewPageNo}
-          perPageNo={this.state.perPageNo}
-          totalPageCount={this.state.reviews.totalPageCount}
+          reviewPageNo={this.props.reviewPageNo}
+          perPageNo={this.props.perPageNo}
+          totalPageCount={this.props.reviewList.totalPageCount}
           onClick={this.fetchStoreReviews}>
           {this.renderReviews()}
         </Pagination>
@@ -78,4 +64,4 @@ const mapDispatchToProps = dispatch => ({
   fetchReviewList: (id, pageNo, perPageNo) => dispatch(fetchReviewList(id, pageNo, perPageNo))
 });
 
-export default ReviewList;
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewList);

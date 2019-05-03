@@ -14,7 +14,7 @@ class ReviewDetail extends Component {
   };
 
   componentDidMount() {
-    let reviewId = this.props.match.params.reviewId;
+    const reviewId = this.props.match.params.reviewId;
     reviewId && this.fetchReviewDetail(reviewId);
   }
 

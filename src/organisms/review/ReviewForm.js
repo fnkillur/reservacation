@@ -8,7 +8,7 @@ class ReviewForm extends Component {
     reviewImg: '',
     description: '',
     storeId: this.props.storeId
-  }
+  };
 
   shouldComponentUpdate(nextProps, nextState) {
     return (nextState.file !== this.state.file)
@@ -30,8 +30,8 @@ class ReviewForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state.reviewImg);
-    let formData = new FormData();
+
+    const formData = new FormData();
     formData.append('reviewImg', this.state.reviewImg);
     formData.append('description', this.state.description);
     formData.append('storeId', this.props.storeId);
@@ -41,19 +41,20 @@ class ReviewForm extends Component {
       reviewImg: '',
       description: '',
       storeId: this.props.storeId
-    })
+    });
   };
 
   render() {
     return (
       <form className='review-form' onSubmit={this.handleSubmit}>
         <section className='upload-input'>
-                    <textarea
-                      className='contents'
-                      name='description'
-                      cols='30'
-                      onChange={this.handleChange}
-                      placeholder='어떠한 점이 좋았나요?'/>
+          <textarea
+            className='contents'
+            name='description'
+            cols='30'
+            onChange={this.handleChange}
+            placeholder='어떠한 점이 좋았나요?'
+          />
           <section className='image-upload'>
             <ImageUpload
               name='reviewImg'
