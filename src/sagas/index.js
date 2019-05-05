@@ -7,6 +7,6 @@ export default function* sagas() {
   yield all([
     fork(storeDetail),
     fork(reservationInfo),
-    fork(reviewList)
+    fork(reviewList),
   ]);
 }

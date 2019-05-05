@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import './ReviewDetail.scss';
 import Modal from '../components/Modal';
 import TitleBox from '../components/TitleBox';
 import DescriptionBox from '../components/DescriptionBox';
 import Image from '../components/Image';
-import * as reviewService from '../_common/services/review.service';
+import {getReview} from '../_common/services/review.service';
 import SectionDivider from '../components/SectionDivider';
 
-class ReviewDetail extends Component {
+class ReviewDetail extends PureComponent {
 
   state = {
     review: ''
@@ -18,9 +18,9 @@ class ReviewDetail extends Component {
     reviewId && this.fetchReviewDetail(reviewId);
   }
 
-  fetchReviewDetail = async (reviewId) => {
+  fetchReviewDetail = async reviewId => {
     try {
-      let res = await reviewService.getReview(reviewId);
+      const res = await getReview(reviewId);
       this.setState({
         review: res.data
       });
@@ -30,7 +30,7 @@ class ReviewDetail extends Component {
   };
 
   getCallbackUrl = () => {
-    let queryParams = this.props.location.search;
+    const queryParams = this.props.location.search;
     return queryParams && queryParams.replace(new RegExp('\\?.+url=', 'g'), '');
   };
 

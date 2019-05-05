@@ -12,7 +12,7 @@ const reducer = combineReducers({
   user,
   guestCount,
   reservationInfo,
-  reviewList
+  reviewList,
 });
 
 export default reducer;

@@ -14,8 +14,8 @@ class Modal extends Component {
         const { to, hasBtnBack, children } = this.props;
 
         return (
-            <div className='backdrop'>
-                <div className='modal'>
+            <section className='backdrop'>
+                <article className='modal'>
                     <section className='buttons'>
                         <div className={(hasBtnBack && 'btn-back') || 'btn-none'}>
                             <Link to={to || '/stores'}>
@@ -29,8 +29,8 @@ class Modal extends Component {
                         </div>
                     </section>
                     {children}
-                </div>
-            </div>
+                </article>
+            </section>
         );
     }
 }

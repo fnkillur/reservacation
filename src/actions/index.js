@@ -30,6 +30,12 @@ export const clearFieldAuth = () => ({
   type: types.CLEAR_FIELD_AUTH
 });
 
+export const updateFieldReview = (key, value) => ({
+  type: types.UPDATE_FIELD_REVIEW,
+  key,
+  value
+});
+
 export const inputGuestCount = input => ({
   type: types.INPUT_GUEST_COUNT,
   input

@@ -1,25 +1,10 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, {PureComponent} from 'react';
 import './ReviewList.scss';
 import {Link} from 'react-router-dom';
 import ReviewCard from './ReviewCard';
 import Pagination from '../Pagination';
-import {fetchReviewList} from "../../actions";
 
-class ReviewList extends Component {
-
-  componentDidMount() {
-    this.props.fetchReviewList(this.props.id, this.props.reviewPageNo, this.props.perPageNo);
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return nextProps.reviewList !== this.props.reviewList;
-  }
-
-  fetchStoreReviews = (reviewPageNo, perPageNo) => {
-    this.props.fetchReviewList(this.props.id, reviewPageNo, perPageNo);
-    this.props.pushQueryString(reviewPageNo, perPageNo);
-  };
+class ReviewList extends PureComponent {
 
   renderReviews = () => {
     return (
@@ -49,7 +34,7 @@ class ReviewList extends Component {
           reviewPageNo={this.props.reviewPageNo}
           perPageNo={this.props.perPageNo}
           totalPageCount={this.props.reviewList.totalPageCount}
-          onClick={this.fetchStoreReviews}>
+          onClick={this.props.pageAction}>
           {this.renderReviews()}
         </Pagination>
       </div>
@@ -57,11 +42,4 @@ class ReviewList extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  reviewList: state.reviewList
-});
-const mapDispatchToProps = dispatch => ({
-  fetchReviewList: (id, pageNo, perPageNo) => dispatch(fetchReviewList(id, pageNo, perPageNo))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ReviewList);
+export default ReviewList;

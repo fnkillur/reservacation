@@ -6,21 +6,57 @@ import queryString from 'query-string';
 import Modal from '../components/Modal';
 import SectionDivider from '../components/SectionDivider';
 import StoreDetail from '../organisms/store/StoreDetail';
+import TitleBox from '../components/TitleBox';
 import ReviewList from '../organisms/review/ReviewList';
 import ReviewForm from '../organisms/review/ReviewForm';
 import {identifyLogin} from '../_common/services/user.service';
-import {writeReview} from '../_common/services/review.service';
-import {fetchStoreDetail} from '../actions';
+import {fetchReviewList, fetchStoreDetail} from '../actions';
+import {writeReview} from "../_common/services/review.service";
 
 class Store extends Component {
 
   state = {
-    isOpen: false
+    review: {
+      reviewImg: '',
+      description: ''
+    },
+    isOpen: false,
+    reviewPageNo: 0,
+    perPageNo: 5,
   };
 
-  componentDidMount() {
-    this.props.fetchStoreDetail(this.props.match.params.id);
+  // shouldComponentUpdate(nextProps, nextState, nextContext) {
+  //   return nextProps.storeDetail !== this.props.storeDetail
+  //     || nextProps.reviewList !== this.props.reviewList
+  //     || nextState.review !== this.state.review
+  //     || nextState.isOpen !== this.state.isOpen;
+  // }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // console.log('update');
+    // console.log(prevState, this.state);
   }
+
+  componentDidMount() {
+    console.log('mount');
+    const { location, match } = this.props;
+    const {reviewPageNo, perPageNo} = queryString.parse(location.search);
+    console.log(reviewPageNo, perPageNo);
+    this.setState({
+      reviewPageNo:reviewPageNo,
+      perPageNo:perPageNo
+    });
+    console.log(reviewPageNo, perPageNo);
+    console.log(this.state);
+    this.props.fetchStoreDetail(match.params.id);
+
+    this.fetchStoreReviews();
+  }
+
+  fetchStoreReviews = () => {
+    const { reviewPageNo, perPageNo } = this.state;
+    this.props.fetchReviewList(this.props.match.params.id, reviewPageNo, perPageNo);
+  };
 
   renderReserveButton = (pathname, search, btnName) => {
     return (
@@ -30,32 +66,56 @@ class Store extends Component {
     );
   };
 
-  pushQueryString = (reviewPageNo, perPageNo) => {
-    this.props.history.push({
-      search: `?reviewPageNo=${reviewPageNo}&perPageNo=${perPageNo}`
-    });
-  };
-
   toggleReviewForm = () => {
     this.setState({
       isOpen: !this.state.isOpen
     });
   };
 
-  handleCreate = async review => {
+  handleFormChange = e => {
+    this.setState({
+      review: {
+        ...this.state.review,
+        [e.target.name]: (e.target.files && e.target.files[0]) || e.target.value
+      }
+    });
+  };
+
+  handleFormSubmit = e => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('reviewImg', this.state.review.reviewImg);
+    formData.append('description', this.state.review.description);
+    formData.append('storeId', this.props.match.params.id);
+
+    this.createReview(formData);
+  };
+
+  createReview = async review => {
     try {
-      const res = await writeReview(review);
-      alert(res.data.message);
-      window.location.reload();
+      const response = await writeReview(review);
+      alert(response.data.message);
+      this.setState({
+        review: {
+          reviewImg: '',
+          description: ''
+        },
+        isOpen: false
+      });
+
     } catch (error) {
-      error.response.data && alert(error.response.data.message);
+      console.error(error);
+      alert('리뷰 등록에 실패했습니다.');
     }
   };
 
   render() {
-    const id = this.props.match.params.id;
-    const query = queryString.parse(this.props.location.search);
-    const callbackUrl = `callback_url=/stores/${id}?reviewPageNo=${query.reviewPageNo}&perPageNo=${query.perPageNo}`;
+    const { isOpen, review, reviewPageNo, perPageNo } = this.state;
+    const { storeDetail, reviewList, match } = this.props;
+    const { info, images } = storeDetail;
+    const id = match.params.id;
+    const callbackUrl = `callback_url=/stores/${id}?reviewPageNo=${reviewPageNo}&perPageNo=${perPageNo}`;
     const token = identifyLogin();
 
     return (
@@ -64,24 +124,24 @@ class Store extends Component {
           {(token && this.renderReserveButton(`/stores/${id}/reserve`, callbackUrl, '예약하기'))
           || this.renderReserveButton('/auth/login', callbackUrl, '로그인 후 예약하기')}
           <SectionDivider/>
-          <StoreDetail
-            storeDetail={this.props.storeDetail}
-          />
-          <section className='store-reviews'>
-            <ReviewList
-              id={id}
-              reviewPageNo={query.reviewPageNo}
-              perPageNo={query.perPageNo}
-              pushQueryString={this.pushQueryString}
-              callbackUrl={callbackUrl}/>
-          </section>
-          <section className='review-button'>
-            {(token && <button className='btn-review' onClick={this.toggleReviewForm}>
-              {(!this.state.isOpen && '리뷰 작성하기') || '작성 취소'}
-            </button>) || ''}
-          </section>
-          <section className={(this.state.isOpen && 'review-create') || 'review-hidden'}>
-            <ReviewForm storeId={id} onCreate={this.handleCreate}/>
+          <StoreDetail storeDetail={storeDetail}/>
+          <SectionDivider/>
+          <TitleBox contents={(images && `${info.store_name}의 생생한 리뷰들`) || ''}/>
+          <ReviewList
+            id={id}
+            reviewPageNo={reviewPageNo}
+            perPageNo={perPageNo}
+            reviewList={reviewList}
+            callbackUrl={callbackUrl}/>
+          {token && <button className='btn-review' onClick={this.toggleReviewForm}>
+            {(!isOpen && '리뷰 작성하기') || '작성 취소'}
+          </button>}
+          <section className={(isOpen && 'review-create') || 'review-hidden'}>
+            <ReviewForm
+              review={review}
+              handleChange={this.handleFormChange}
+              handleSubmit={this.handleFormSubmit}
+            />
           </section>
         </section>
       </Modal>
@@ -90,11 +150,13 @@ class Store extends Component {
 }
 
 const mapStateToProps = state => ({
-  storeDetail: state.storeDetail
+  storeDetail: state.storeDetail,
+  reviewList: state.reviewList
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchStoreDetail: id => dispatch(fetchStoreDetail(id))
+  fetchStoreDetail: id => dispatch(fetchStoreDetail(id)),
+  fetchReviewList: (id, pageNo, perPageNo) => dispatch(fetchReviewList(id, pageNo, perPageNo))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Store);
