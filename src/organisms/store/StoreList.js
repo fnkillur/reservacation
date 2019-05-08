@@ -13,7 +13,7 @@ const StoreList = ({stores}) => {
           <article
             className='store'
             key={store.id}>
-            <Link to={`/stores/${store.id}?reviewPageNo=0`}>
+            <Link to={`/stores/${store.id}`}>
               <StoreCard
                 imgSrc={store.img_src}
                 imgAlt={store.store_name}

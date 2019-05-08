@@ -1,33 +1,19 @@
 import React, {PureComponent} from 'react';
 import './ReviewDetail.scss';
+import {connect} from 'react-redux';
 import Modal from '../components/Modal';
 import TitleBox from '../components/TitleBox';
 import DescriptionBox from '../components/DescriptionBox';
 import Image from '../components/Image';
-import {getReview} from '../_common/services/review.service';
 import SectionDivider from '../components/SectionDivider';
+import {fetchReviewDetail} from '../actions';
 
 class ReviewDetail extends PureComponent {
 
-  state = {
-    review: ''
-  };
-
   componentDidMount() {
-    const reviewId = this.props.match.params.reviewId;
-    reviewId && this.fetchReviewDetail(reviewId);
+    const {match, fetchReview} = this.props;
+    fetchReview(match.params.reviewId);
   }
-
-  fetchReviewDetail = async reviewId => {
-    try {
-      const res = await getReview(reviewId);
-      this.setState({
-        review: res.data
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   getCallbackUrl = () => {
     const queryParams = this.props.location.search;
@@ -35,6 +21,10 @@ class ReviewDetail extends PureComponent {
   };
 
   render() {
+    const {review} = this.props;
+
+    if (!review) return '';
+
     return (
       <Modal to={this.getCallbackUrl()} hasBtnBack={true}>
         <article className='review-detail'>
@@ -42,14 +32,14 @@ class ReviewDetail extends PureComponent {
             <TitleBox contents='상세 리뷰'/>
           </section>
           <section className='review-info'>
-            {this.state.review && new Date(this.state.review.createdAt).toISOString().split('T')[0] + ' (작성)'}
+            {new Date(review.createdAt).toISOString().split('T')[0] + ' (작성)'}
           </section>
           <SectionDivider/>
           <section className='review-image'>
-            <Image src={this.state.review && this.state.review.img_src}/>
+            <Image src={review.img_src}/>
           </section>
           <section className='review-contents'>
-            <DescriptionBox contents={this.state.review && this.state.review.description}/>
+            <DescriptionBox contents={review.description}/>
           </section>
         </article>
       </Modal>
@@ -57,4 +47,11 @@ class ReviewDetail extends PureComponent {
   }
 }
 
-export default ReviewDetail;
+const mapStateToProps = state => ({
+  review: state.reviewDetail
+});
+const mapDispatchToProps = dispatch => ({
+  fetchReview: id => dispatch(fetchReviewDetail(id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewDetail);

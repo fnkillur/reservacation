@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import './Store.scss'
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import queryString from 'query-string';
 import Modal from '../components/Modal';
 import SectionDivider from '../components/SectionDivider';
 import StoreDetail from '../organisms/store/StoreDetail';
@@ -18,7 +17,6 @@ class Store extends Component {
 
   state = {
     activePage: 0,
-    itemCountPerPageNo: (isMobile && 2) || 5,
     isOpen: false,
     review: {
       reviewImg: '',
@@ -27,17 +25,28 @@ class Store extends Component {
   };
 
   componentDidMount() {
-    const {match, fetchStoreDetail, fetchReviewList} = this.props;
+    const {match, fetchStoreDetail} = this.props;
     const storeId = match.params.id;
-    const {activePage, itemCountPerPageNo} = this.state;
 
     fetchStoreDetail(storeId);
-    fetchReviewList(storeId, activePage, itemCountPerPageNo);
+    this.renewReviewList(0);
   }
 
-  pageAction = nextPage => {
-    this.setState({activePage: nextPage});
-    this.props.history.push({search: `?reviewPageNo=${nextPage}`});
+  renewReviewList = pageNo => {
+    const {match, fetchReviewList} = this.props;
+    const storeId = match.params.id;
+    const perPageNo = this.getItemCountPerPage();
+
+    fetchReviewList(storeId, pageNo, perPageNo);
+  };
+
+  pageAction = activePage => {
+    this.setState({activePage});
+    this.renewReviewList(activePage);
+  };
+
+  getItemCountPerPage = () => {
+    return (isMobile && 2) || 5;
   };
 
   renderReserveButton = (pathname, search, btnName) => {
@@ -93,11 +102,11 @@ class Store extends Component {
   };
 
   render() {
-    const {isOpen, review, activePage, itemCountPerPageNo} = this.state;
+    const {isOpen, review, activePage} = this.state;
     const {storeDetail, reviewList, match} = this.props;
     const {info, images} = storeDetail;
     const id = match.params.id;
-    const callbackUrl = `callback_url=/stores/${id}?reviewPageNo=${activePage}&perPageNo=${itemCountPerPageNo}`;
+    const callbackUrl = `callback_url=/stores/${id}`;
     const token = identifyLogin();
 
     return (

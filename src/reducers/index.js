@@ -5,6 +5,7 @@ import user from './user';
 import guestCount from './guestCount';
 import reservationInfo from './reservationInfo';
 import reviewList from './reviewList';
+import reviewDetail from './reviewDetail';
 
 const reducer = combineReducers({
   storeList,
@@ -13,6 +14,7 @@ const reducer = combineReducers({
   guestCount,
   reservationInfo,
   reviewList,
+  reviewDetail,
 });
 
 export default reducer;

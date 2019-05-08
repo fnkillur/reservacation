@@ -30,12 +30,6 @@ export const clearFieldAuth = () => ({
   type: types.CLEAR_FIELD_AUTH
 });
 
-export const updateFieldReview = (key, value) => ({
-  type: types.UPDATE_FIELD_REVIEW,
-  key,
-  value
-});
-
 export const inputGuestCount = input => ({
   type: types.INPUT_GUEST_COUNT,
   input
@@ -70,5 +64,20 @@ export const fetchReviewListSucceeded = payload => ({
 
 export const fetchReviewListFailed = error => ({
   type: types.FETCH_REVIEW_LIST_FAILED,
+  error
+});
+
+export const fetchReviewDetail = id => ({
+  type: types.FETCH_REVIEW_DETAIL,
+  id
+});
+
+export const fetchReviewDetailSucceeded = payload => ({
+  type: types.FETCH_REVIEW_DETAIL_SUCCEEDED,
+  payload
+});
+
+export const fetchReviewDetailFailed = error => ({
+  type: types.FETCH_REVIEW_DETAIL_FAILED,
   error
 });
