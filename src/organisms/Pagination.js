@@ -7,15 +7,9 @@ import {Link} from "react-router-dom";
 
 fontawesome.library.add(faAngleRight);
 
-const Pagination = ({reviewPageNo, perPageNo, totalPageCount, onClick, children, moveLink}) => {
+const Pagination = ({reviewPageNo, perPageNo, totalPageCount, onClick, children}) => {
 
   const pageNo = parseInt(reviewPageNo);
-  const buttonHandler = (handler, pageNo) => () => {
-    handler(pageNo, perPageNo);
-    moveLink();
-  };
-  const leftHandler = buttonHandler(onClick, pageNo - 1);
-  const rightHandler = buttonHandler(onClick, pageNo + 1);
 
   return (
     <div className='pagination'>
@@ -27,7 +21,7 @@ const Pagination = ({reviewPageNo, perPageNo, totalPageCount, onClick, children,
       <section className='children'>
         {children}
       </section>
-      <section className={((!totalPageCount || parseInt(totalPageCount) === pageNo + 1) && 'hide') || 'btn-right'}>
+      <section className={((parseInt(totalPageCount) === pageNo + 1) && 'hide') || 'btn-right'}>
         <Link to={`?reviewPageNo=${pageNo + 1}&perPageNo=${perPageNo}`}>
           <FontAwesomeIcon icon={faAngleRight}/>
         </Link>

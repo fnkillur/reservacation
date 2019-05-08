@@ -25,36 +25,20 @@ class Store extends Component {
     perPageNo: 5,
   };
 
-  // shouldComponentUpdate(nextProps, nextState, nextContext) {
-  //   return nextProps.storeDetail !== this.props.storeDetail
-  //     || nextProps.reviewList !== this.props.reviewList
-  //     || nextState.review !== this.state.review
-  //     || nextState.isOpen !== this.state.isOpen;
-  // }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    // console.log('update');
-    // console.log(prevState, this.state);
-  }
-
   componentDidMount() {
-    console.log('mount');
-    const { location, match } = this.props;
+    const {location, match, fetchStoreDetail} = this.props;
     const {reviewPageNo, perPageNo} = queryString.parse(location.search);
-    console.log(reviewPageNo, perPageNo);
     this.setState({
-      reviewPageNo:reviewPageNo,
-      perPageNo:perPageNo
+      reviewPageNo,
+      perPageNo
     });
-    console.log(reviewPageNo, perPageNo);
-    console.log(this.state);
-    this.props.fetchStoreDetail(match.params.id);
+    fetchStoreDetail(match.params.id);
 
     this.fetchStoreReviews();
   }
 
   fetchStoreReviews = () => {
-    const { reviewPageNo, perPageNo } = this.state;
+    const {reviewPageNo, perPageNo} = this.state;
     this.props.fetchReviewList(this.props.match.params.id, reviewPageNo, perPageNo);
   };
 
@@ -111,9 +95,9 @@ class Store extends Component {
   };
 
   render() {
-    const { isOpen, review, reviewPageNo, perPageNo } = this.state;
-    const { storeDetail, reviewList, match } = this.props;
-    const { info, images } = storeDetail;
+    const {isOpen, review, reviewPageNo, perPageNo} = this.state;
+    const {storeDetail, reviewList, match} = this.props;
+    const {info, images} = storeDetail;
     const id = match.params.id;
     const callbackUrl = `callback_url=/stores/${id}?reviewPageNo=${reviewPageNo}&perPageNo=${perPageNo}`;
     const token = identifyLogin();

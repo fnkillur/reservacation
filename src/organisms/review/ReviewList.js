@@ -7,13 +7,15 @@ import Pagination from '../Pagination';
 class ReviewList extends PureComponent {
 
   renderReviews = () => {
+    const {reviewList, storeId, callbackUrl} = this.props;
+
     return (
-      (this.props.reviewList.data.map(review => {
+      (reviewList.data.map(review => {
         return (
           <article className='review' key={review.id}>
             <Link to={{
-              pathname: `/stores/${this.props.id}/reviews/${review.id}`,
-              search: this.props.callbackUrl
+              pathname: `/stores/${storeId}/reviews/${review.id}`,
+              search: callbackUrl
             }}>
               <ReviewCard
                 imgSrc={review.img_src}
@@ -28,13 +30,15 @@ class ReviewList extends PureComponent {
   };
 
   render() {
+    const {reviewPageNo, perPageNo, reviewList} = this.props;
+
     return (
       <div className='review-list'>
         <Pagination
-          reviewPageNo={this.props.reviewPageNo}
-          perPageNo={this.props.perPageNo}
-          totalPageCount={this.props.reviewList.totalPageCount}
-          onClick={this.props.pageAction}>
+          reviewPageNo={reviewPageNo}
+          perPageNo={perPageNo}
+          totalPageCount={reviewList.totalPageCount}
+        >
           {this.renderReviews()}
         </Pagination>
       </div>
