@@ -12,34 +12,32 @@ import ReviewForm from '../organisms/review/ReviewForm';
 import {identifyLogin} from '../_common/services/user.service';
 import {fetchReviewList, fetchStoreDetail} from '../actions';
 import {writeReview} from "../_common/services/review.service";
+import {isMobile} from "../_common/const/const";
 
 class Store extends Component {
 
   state = {
+    activePage: 0,
+    itemCountPerPageNo: (isMobile && 2) || 5,
+    isOpen: false,
     review: {
       reviewImg: '',
       description: ''
     },
-    isOpen: false,
-    reviewPageNo: 0,
-    perPageNo: 5,
   };
 
   componentDidMount() {
-    const {location, match, fetchStoreDetail} = this.props;
-    const {reviewPageNo, perPageNo} = queryString.parse(location.search);
-    this.setState({
-      reviewPageNo,
-      perPageNo
-    });
-    fetchStoreDetail(match.params.id);
+    const {match, fetchStoreDetail, fetchReviewList} = this.props;
+    const storeId = match.params.id;
+    const {activePage, itemCountPerPageNo} = this.state;
 
-    this.fetchStoreReviews();
+    fetchStoreDetail(storeId);
+    fetchReviewList(storeId, activePage, itemCountPerPageNo);
   }
 
-  fetchStoreReviews = () => {
-    const {reviewPageNo, perPageNo} = this.state;
-    this.props.fetchReviewList(this.props.match.params.id, reviewPageNo, perPageNo);
+  pageAction = nextPage => {
+    this.setState({activePage: nextPage});
+    this.props.history.push({search: `?reviewPageNo=${nextPage}`});
   };
 
   renderReserveButton = (pathname, search, btnName) => {
@@ -95,11 +93,11 @@ class Store extends Component {
   };
 
   render() {
-    const {isOpen, review, reviewPageNo, perPageNo} = this.state;
+    const {isOpen, review, activePage, itemCountPerPageNo} = this.state;
     const {storeDetail, reviewList, match} = this.props;
     const {info, images} = storeDetail;
     const id = match.params.id;
-    const callbackUrl = `callback_url=/stores/${id}?reviewPageNo=${reviewPageNo}&perPageNo=${perPageNo}`;
+    const callbackUrl = `callback_url=/stores/${id}?reviewPageNo=${activePage}&perPageNo=${itemCountPerPageNo}`;
     const token = identifyLogin();
 
     return (
@@ -108,18 +106,24 @@ class Store extends Component {
           {(token && this.renderReserveButton(`/stores/${id}/reserve`, callbackUrl, '예약하기'))
           || this.renderReserveButton('/auth/login', callbackUrl, '로그인 후 예약하기')}
           <SectionDivider/>
-          <StoreDetail storeDetail={storeDetail}/>
+          <StoreDetail
+            storeDetail={storeDetail}
+          />
           <SectionDivider/>
           <TitleBox contents={(images && `${info.store_name}의 생생한 리뷰들`) || ''}/>
           <ReviewList
-            id={id}
-            reviewPageNo={reviewPageNo}
-            perPageNo={perPageNo}
             reviewList={reviewList}
-            callbackUrl={callbackUrl}/>
-          {token && <button className='btn-review' onClick={this.toggleReviewForm}>
-            {(!isOpen && '리뷰 작성하기') || '작성 취소'}
-          </button>}
+            storeId={id}
+            callbackUrl={callbackUrl}
+            activePage={activePage}
+            pageAction={this.pageAction}
+          />
+          {
+            token &&
+            <button className='btn-review' onClick={this.toggleReviewForm}>
+              {(!isOpen && '리뷰 작성하기') || '작성 취소'}
+            </button>
+          }
           <section className={(isOpen && 'review-create') || 'review-hidden'}>
             <ReviewForm
               review={review}

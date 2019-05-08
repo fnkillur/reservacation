@@ -30,14 +30,14 @@ class ReviewList extends PureComponent {
   };
 
   render() {
-    const {reviewPageNo, perPageNo, reviewList} = this.props;
+    const {activePage, reviewList, pageAction} = this.props;
 
     return (
       <div className='review-list'>
         <Pagination
-          reviewPageNo={reviewPageNo}
-          perPageNo={perPageNo}
+          activePage={activePage}
           totalPageCount={reviewList.totalPageCount}
+          pageAction={pageAction}
         >
           {this.renderReviews()}
         </Pagination>
