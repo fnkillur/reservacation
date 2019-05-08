@@ -4,19 +4,17 @@
   margin: 0;
   padding: 0;
 
-  .upload-input {
-    .contents {
-      width: 100%;
-      height: 100px;
-      padding: 10px;
-      resize: none;
-      margin-bottom: 10px;
-      border: 1px solid #cbcbcb;
-      background-color: #f4f4f4;
-      box-sizing: border-box;
-      font-size: 13px;
-      line-height: 18px;
-    }
+  .contents {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    resize: none;
+    margin-bottom: 10px;
+    border: 1px solid #cbcbcb;
+    background-color: #f4f4f4;
+    box-sizing: border-box;
+    font-size: 13px;
+    line-height: 18px;
   }
 
   .btn-upload {

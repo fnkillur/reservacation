@@ -66,3 +66,18 @@ export const fetchReviewListFailed = error => ({
   type: types.FETCH_REVIEW_LIST_FAILED,
   error
 });
+
+export const fetchReviewDetail = id => ({
+  type: types.FETCH_REVIEW_DETAIL,
+  id
+});
+
+export const fetchReviewDetailSucceeded = payload => ({
+  type: types.FETCH_REVIEW_DETAIL_SUCCEEDED,
+  payload
+});
+
+export const fetchReviewDetailFailed = error => ({
+  type: types.FETCH_REVIEW_DETAIL_FAILED,
+  error
+});

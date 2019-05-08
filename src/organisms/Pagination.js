@@ -1,33 +1,32 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Pagination.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import * as fontawesome from "@fortawesome/fontawesome-svg-core";
-import { faAngleLeft, faAngleRight } from '@fortawesome/fontawesome-free-solid'
+import {faAngleLeft, faAngleRight} from '@fortawesome/fontawesome-free-solid'
 
 fontawesome.library.add(faAngleRight);
+fontawesome.library.add(faAngleLeft);
 
-class Pagination extends Component {
-    render() {
-        const { perPageNo, totalPageCount, onClick } = this.props;
-        let pageNo = parseInt(this.props.reviewPageNo);
-        let classLeft = (pageNo === 1 && 'hide') || 'btn-left';
-        let classRight = ((!totalPageCount || parseInt(totalPageCount) === pageNo) && 'hide') || 'btn-right';
+const Pagination = ({activePage, totalPageCount, children, pageAction}) => {
 
-        return (
-            <div className='pagination'>
-                <section className={classLeft}>
-                    <FontAwesomeIcon onClick={() => { onClick(pageNo - 1, perPageNo) }} icon={faAngleLeft} />
-                </section>
-                <section className='children'>
-                    {this.props.children}
-                </section>
-                <section className={classRight}>
-                    <FontAwesomeIcon onClick={() => { onClick(pageNo + 1, perPageNo) }} icon={faAngleRight} />
-                </section>
-            </div>
-        );
-    }
-}
+  const pageNo = parseInt(activePage);
+  const makeHandler = nextPage => () => pageAction(nextPage);
+  const handleLeft = makeHandler(pageNo - 1);
+  const handleRight = makeHandler(pageNo + 1);
 
+  return (
+    <div className='pagination'>
+      <section className={(pageNo === 0 && 'hide') || 'btn-left'}>
+        <FontAwesomeIcon icon={faAngleLeft} onClick={handleLeft}/>
+      </section>
+      <section className='children'>
+        {children}
+      </section>
+      <section className={((parseInt(totalPageCount) === pageNo + 1) && 'hide') || 'btn-right'}>
+        <FontAwesomeIcon icon={faAngleRight} onClick={handleRight}/>
+      </section>
+    </div>
+  );
+};
 
 export default Pagination;

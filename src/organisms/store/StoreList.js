@@ -2,12 +2,9 @@ import React from 'react';
 import './StoreList.scss';
 import {Link} from 'react-router-dom';
 import StoreCard from './StoreCard';
-import {isMobile} from '../../_common/const/const';
 import {connect} from 'react-redux';
 
 const StoreList = ({stores}) => {
-
-  const perPageNo = (isMobile && 2) || 5;
 
   return (
     <div className={(stores.length && 'store-list') || 'none'}>
@@ -16,7 +13,7 @@ const StoreList = ({stores}) => {
           <article
             className='store'
             key={store.id}>
-            <Link to={`/stores/${store.id}?reviewPageNo=1&perPageNo=${perPageNo}`}>
+            <Link to={`/stores/${store.id}`}>
               <StoreCard
                 imgSrc={store.img_src}
                 imgAlt={store.store_name}
