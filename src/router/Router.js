@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Route, Redirect} from 'react-router-dom';
 import Main from '../pages/Main';
 import Auth from '../pages/Auth';
 import {createStore, applyMiddleware} from 'redux';
@@ -20,7 +20,7 @@ const Router = () => {
     <Provider store={store}>
       <BrowserRouter>
         <React.Fragment>
-          <Route exact path="/" component={Main}/>
+          <Route exact path="/" component={() => <Redirect to="/stores"/>}/>
           <Route path="/stores" component={Main}/>
           <Route path='/auth' component={Auth}/>
         </React.Fragment>
