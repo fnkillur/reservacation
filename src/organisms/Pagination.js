@@ -9,10 +9,11 @@ fontawesome.library.add(faAngleLeft);
 
 const Pagination = ({activePage, totalPageCount, children, pageAction}) => {
 
-  const pageNo = parseInt(activePage);
+  const pageNo = parseInt(activePage, 10);
   const makeHandler = nextPage => () => pageAction(nextPage);
   const handleLeft = makeHandler(pageNo - 1);
   const handleRight = makeHandler(pageNo + 1);
+  const isLast = (!totalPageCount || parseInt(totalPageCount, 10) === pageNo + 1);
 
   return (
     <div className='pagination'>
@@ -22,7 +23,7 @@ const Pagination = ({activePage, totalPageCount, children, pageAction}) => {
       <section className='children'>
         {children}
       </section>
-      <section className={((parseInt(totalPageCount) === pageNo + 1) && 'hide') || 'btn-right'}>
+      <section className={(isLast && 'hide') || 'btn-right'}>
         <FontAwesomeIcon icon={faAngleRight} onClick={handleRight}/>
       </section>
     </div>
